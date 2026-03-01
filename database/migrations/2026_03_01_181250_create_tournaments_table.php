@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Team;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,13 +12,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('teams', function (Blueprint $table) {
+        Schema::create('tournaments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('winner_team_id')->nullable()->constrained('teams')->nullOnDelete(); 
             $table->string('name');
-            $table->string('nickname');
-            $table->integer('province_id');
-            $table->string('stadium');
-            $table->string('team_logo_route');
+            $table->year('edition');
+            $table->string('tournament_logo_route');
+            $table->integer('tournament_status_id');
+            $table->boolean('online_status')->default(false);
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('teams');
+        Schema::dropIfExists('tournaments');
     }
 };
