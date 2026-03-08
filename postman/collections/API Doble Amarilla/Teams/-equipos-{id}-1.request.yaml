@@ -1,0 +1,20 @@
+$kind: http-request
+name: /equipos/{id}
+url: "{{BASE_URL}}/equipos/9"
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \  \"name\": \"San Martin de San Juan\",\r
+
+    \  \"nickname\": \"El Verdinegro\",\r
+
+    \  \"province_id\": 17,\r
+
+    \  \"stadium\": \"Estadio Ingeniero Hilario Sánchez\",\r
+
+    \  \"founded_date\": \"1907-09-27\"\r
+
+    }\r\n"
+order: 4401562925477034

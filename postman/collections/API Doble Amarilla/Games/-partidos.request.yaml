@@ -1,0 +1,8 @@
+$kind: http-request
+name: /partidos
+url: "{{BASE_URL}}/partidos?tournament_id=1&sort=match_day"
+method: GET
+queryParams:
+  tournament_id: "1"
+  sort: match_day
+order: 1772724044236

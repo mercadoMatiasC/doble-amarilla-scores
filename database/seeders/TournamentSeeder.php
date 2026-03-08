@@ -17,7 +17,7 @@ class TournamentSeeder extends Seeder
         [
             'name' => 'Conmebol Libertadores',
             'edition' => Date::create(2023)->year,
-            'tournament_status_id' => 0,
+            'tournament_status_id' => 3,
             'online_status' => true,
             'tournament_logo_route' => 'tournament_logos/conmebollib.png',
             'winner_team_id' => 1,
@@ -25,14 +25,14 @@ class TournamentSeeder extends Seeder
         [
             'name' => 'Conmebol Sudamericana',
             'edition' => Date::create(2024)->year,
-            'tournament_status_id' => 0,
+            'tournament_status_id' => 1,
             'online_status' => true,
             'tournament_logo_route' => 'tournament_logos/conmebolsud.png'
         ],
         [
             'name' => 'Liga Profesional',
             'edition' => Date::create(2026)->year,
-            'tournament_status_id' => 0,
+            'tournament_status_id' => 1,
             'online_status' => true,
             'tournament_logo_route' => 'tournament_logos/LPF.png'
         ],

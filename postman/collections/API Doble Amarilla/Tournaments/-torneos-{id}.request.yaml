@@ -1,0 +1,5 @@
+$kind: http-request
+name: /torneos/{id}
+url: "{{BASE_URL}}/torneos/1"
+method: GET
+order: 3400619646361104

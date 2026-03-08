@@ -2,64 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TournamentRequest;
+use App\Http\Resources\TournamentIndexResource;
+use App\Http\Resources\TournamentShowResource;
 use App\Models\Tournament;
-use Illuminate\Http\Request;
+use App\Services\TournamentService;
 
-class TournamentController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
+class TournamentController extends Controller{
+    public function index() {
+        $tournaments = Tournament::with('winnerTeam')->paginate(10);
+        
+        return (TournamentIndexResource::collection($tournaments));
+    }
+
+    public function create() {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
+    public function store(TournamentRequest $request, TournamentService $tournament_service) {
+        $tournament = $tournament_service->storeTournament($request->validated());
+        $tournament->load(['winnerTeam']);
+        
+        return (new TournamentIndexResource($tournament))->response()->setStatusCode(201);
+    }
+
+    public function show(Tournament $tournament) {
+        $tournament->load(['winnerTeam', 'games', 'games.homeTeam', 'games.awayTeam']);
+
+        return (new TournamentShowResource($tournament));
+    }
+
+    public function edit(Tournament $tournament) {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Tournament $tournament)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Tournament $tournament)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Tournament $tournament)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Tournament $tournament)
-    {
-        //
+    public function update(TournamentRequest $request, Tournament $tournament, TournamentService $tournament_service) {
+        $tournament = $tournament_service->updateTournament($request->validated(), $tournament);
+        $tournament->load(['winnerTeam']);
+        
+        return (new TournamentShowResource($tournament))->response()->setStatusCode(200);
     }
 }

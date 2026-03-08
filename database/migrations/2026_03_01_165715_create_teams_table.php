@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('nickname');
+            $table->string('nickname')->nullable();
             $table->integer('province_id');
-            $table->string('stadium');
-            $table->string('team_logo_route');
+            $table->date('founded_date');
+            $table->string('stadium')->nullable();
+            $table->string('team_logo_route')->nullable();
             $table->timestamps();
         });
     }

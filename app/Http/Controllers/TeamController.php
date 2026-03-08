@@ -2,64 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TeamRequest;
+use App\Http\Resources\TeamIndexResource;
+use App\Http\Resources\TeamShowResource;
+use App\Http\Resources\TeamUpdateResource;
+use App\Models\Game;
 use App\Models\Team;
-use Illuminate\Http\Request;
+use App\Services\TeamService;
 
 class TeamController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
+    public function index() {
+        $teams = Team::paginate(10);
+        
+        return (TeamIndexResource::collection($teams));
+    }
+
+    public function create() {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
+    public function store(TeamRequest $request, TeamService $team_service) {
+        $team = $team_service->storeTeam($request->validated());
+        
+        return (new TeamIndexResource($team))->response()->setStatusCode(201);
+    }
+
+    public function show(Team $team) {
+        $games = Game::where('home_team_id', $team->id)->orWhere('away_team_id', $team->id)->with(['homeTeam', 'awayTeam', 'tournament'])->paginate(10);
+
+        return new TeamShowResource($team, $games);
+    }
+
+    public function edit(Team $team) {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Team $team)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Team $team)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Team $team)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Team $team)
-    {
-        //
+    public function update(TeamRequest $request, Team $team, TeamService $team_service) {
+        $team = $team_service->updateTeam($request->validated(), $team);
+        
+        return (new TeamUpdateResource($team))->response()->setStatusCode(200);
     }
 }

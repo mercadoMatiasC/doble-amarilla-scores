@@ -17,6 +17,7 @@ class TeamSeeder extends Seeder
                 'name' => 'Boca',
                 'nickname' => 'El Xeneize',
                 'province_id' => 1,
+                'founded_date' => '1905-04-03',
                 'stadium' => 'La Bombonera',
                 'team_logo_route' => 'team_logos/1.png'
             ],
@@ -24,6 +25,7 @@ class TeamSeeder extends Seeder
                 'name' => 'River',
                 'nickname' => 'El Millonario',
                 'province_id' => 1,
+                'founded_date' => '1901-05-25',
                 'stadium' => 'El Monumental',
                 'team_logo_route' => 'team_logos/2.png'
             ],
@@ -31,6 +33,7 @@ class TeamSeeder extends Seeder
                 'name' => 'Independiente',
                 'nickname' => 'El Rojo',
                 'province_id' => 1,
+                'founded_date' => '1905-01-01',
                 'stadium' => 'El Libertadores de América - Ricardo Enrique Bochini',
                 'team_logo_route' => 'team_logos/3.png'
             ],
@@ -38,6 +41,7 @@ class TeamSeeder extends Seeder
                 'name' => 'Racing',
                 'nickname' => 'La Academia',
                 'province_id' => 1,
+                'founded_date' => '1903-03-25',
                 'stadium' => 'Presidente Perón',
                 'team_logo_route' => 'team_logos/4.png'
             ],
@@ -45,6 +49,7 @@ class TeamSeeder extends Seeder
                 'name' => 'Aldosivi',
                 'nickname' => 'El Tiburón',
                 'province_id' => 1,
+                'founded_date' => '1913-03-29',
                 'stadium' => 'José Maria Minella',
                 'team_logo_route' => 'team_logos/5.png'
             ],

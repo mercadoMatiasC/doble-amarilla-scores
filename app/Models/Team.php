@@ -13,7 +13,11 @@ class Team extends Model
 
 
     //-- RELATIONSHIPS --
-    public function games(){
-        return $this->hasMany(Game::class);
+    public function homeGames(){
+        return $this->hasMany(Game::class, 'home_team_id');
+    }
+
+    public function awayGames(){
+        return $this->hasMany(Game::class, 'away_team_id');
     }
 }
