@@ -10,5 +10,5 @@ Stack principal: Laravel (Backend API) | React.JS (Frontend SPA).
 
 ## Estructura
 
-/backend   -> Laravel REST API
-/frontend  -> React.JS Application
+/backend   -> Laravel REST API  
+/frontend  -> React.JS Application  
