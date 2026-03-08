@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TeamRequest;
 use App\Http\Resources\TeamIndexResource;
 use App\Http\Resources\TeamShowResource;
-use App\Http\Resources\TeamUpdateResource;
+use App\Http\Resources\TeamStoreResource;
 use App\Models\Game;
 use App\Models\Team;
 use App\Services\TeamService;
@@ -25,7 +25,7 @@ class TeamController extends Controller
     public function store(TeamRequest $request, TeamService $team_service) {
         $team = $team_service->storeTeam($request->validated());
         
-        return (new TeamIndexResource($team))->response()->setStatusCode(201);
+        return (new TeamStoreResource($team))->response()->setStatusCode(201);
     }
 
     public function show(Team $team) {
@@ -41,6 +41,6 @@ class TeamController extends Controller
     public function update(TeamRequest $request, Team $team, TeamService $team_service) {
         $team = $team_service->updateTeam($request->validated(), $team);
         
-        return (new TeamUpdateResource($team))->response()->setStatusCode(200);
+        return (new TeamStoreResource($team))->response()->setStatusCode(200);
     }
 }

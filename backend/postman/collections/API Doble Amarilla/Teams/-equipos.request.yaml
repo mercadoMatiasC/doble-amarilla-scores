@@ -1,5 +1,0 @@
-$kind: http-request
-name: /equipos
-url: "{{BASE_URL}}/equipos"
-method: GET
-order: 1772724044236
