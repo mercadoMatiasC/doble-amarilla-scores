@@ -37,5 +37,8 @@ El indice de equipos puede filtrarse con los siguientes parametros
 /api/games?sort=match_day
 /api/games?sort=-match_day
 
+## POSTMAN
+
+Esta API puede probarse por medio de POSTMAN, con las colecciones y entornos de prueba en la carpeta /postman
 
 
