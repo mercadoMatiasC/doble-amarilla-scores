@@ -48,6 +48,10 @@ class Game extends Model
         self::CANCELLED_STATUS => [],
     ];
 
+    public function displayScore(){
+        return $this->match_status_id != self::TBP_STATUS;
+    }
+
     //-- RELATIONSHIPS --
     public function tournament(){
         return $this->belongsTo(Tournament::class);

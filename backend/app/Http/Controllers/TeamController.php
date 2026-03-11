@@ -13,7 +13,7 @@ use App\Services\TeamService;
 class TeamController extends Controller
 {
     public function index() {
-        $teams = Team::paginate(10);
+        $teams = Team::paginate(8);
         
         return (TeamIndexResource::collection($teams));
     }

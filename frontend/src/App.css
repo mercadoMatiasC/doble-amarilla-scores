@@ -1,0 +1,9 @@
+@import 'tailwindcss';
+
+*{
+    font-family: 'Bahnschrift';
+}
+
+body{
+    background-image: url('../public/brand/background.jpg');
+}

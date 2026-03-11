@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class GameController extends Controller {
     public function index(Request $request, GameFilter $filters) {
-        $games = $filters->apply(Game::query()->with(['homeTeam','awayTeam','tournament']))->paginate(10);
+        $games = $filters->apply(Game::query()->with(['homeTeam','awayTeam','tournament']))->paginate(8);
 
         return GameIndexResource::collection($games);
     }

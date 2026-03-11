@@ -13,6 +13,8 @@ class TeamShowResource extends JsonResource{
     }
 
     public function toArray(Request $request): array { 
+	$URL = 	env('APP_URL').'/storage/';
+
         return [ 
             'id' => $this->id, 
             'name' => $this->name, 
@@ -23,7 +25,7 @@ class TeamShowResource extends JsonResource{
             ],
             'founded_date' => $this->founded_date,
             'stadium' => $this->stadium, 
-            'team_logo_route' => $this->team_logo_route, 
+            'team_logo_route' => $URL.$this->team_logo_route, 
 
             'games' => GameIndexResource::collection($this->games),
         ]; 

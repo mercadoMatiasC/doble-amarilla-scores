@@ -10,7 +10,7 @@ use App\Services\TournamentService;
 
 class TournamentController extends Controller{
     public function index() {
-        $tournaments = Tournament::with('winnerTeam')->paginate(10);
+        $tournaments = Tournament::with('winnerTeam')->paginate(8);
         
         return (TournamentIndexResource::collection($tournaments));
     }
