@@ -7,43 +7,47 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class GameIndexResource extends JsonResource{
 
     public function toArray(Request $request): array {
-	$URL = 	env('APP_URL').'/storage/';
-
-        $home_team  = $this->whenLoaded('homeTeam');
-        $away_team  = $this->whenLoaded('awayTeam');
-        $tournament = $this->whenLoaded('tournament');
+        $URL = config('app.url') . '/storage/'; // Better than env() in resources
 
         return [
             'id' => $this->id,
-            'tournament' => [
-                'id'   => $tournament->id,
-                'name' => $tournament->name,
-                'edition' => $tournament->edition,
-                'tournament_logo_route' => $URL.$tournament->tournament_logo_route,
-            ],
+            // Only show tournament if it was loaded
+            'tournament' => $this->whenLoaded('tournament', function() use ($URL) {
+                return [
+                    'id'   => $this->tournament->id,
+                    'name' => $this->tournament->name,
+                    'edition' => $this->tournament->edition,
+                    'tournament_logo_route' => $URL . $this->tournament->tournament_logo_route,
+                ];
+            }),
             'round' => [ 
                 'id' => $this->round_id, 
-                'name' => config('match_round_stages')[$this->round_id] ?? NULL
+                'name' => config('match_round_stages')[$this->round_id] ?? null
             ],
-            'home_team' => [
-                'id'   => $home_team->id,
-                'name' => $home_team->name,
-                'team_logo_route' => $URL.$home_team->team_logo_route,
-            ],
-            'away_team' => [
-                'id'   => $away_team->id,
-                'name' => $away_team->name,
-                'team_logo_route' => $URL.$away_team->team_logo_route,
-            ],
-            'match_day'  => $this->match_day,
-	    'match_time'  => $this->match_time,
-            'home_score' => $this->home_score,
-            'away_score' => $this->away_score,
+            // Use the second argument of whenLoaded to safely map the data
+            'home_team' => $this->whenLoaded('homeTeam', function() use ($URL) {
+                return [
+                    'id'   => $this->homeTeam->id,
+                    'name' => $this->homeTeam->name,
+                    'team_logo_route' => $URL . $this->homeTeam->team_logo_route,
+                ];
+            }),
+            'away_team' => $this->whenLoaded('awayTeam', function() use ($URL) {
+                return [
+                    'id'   => $this->awayTeam->id,
+                    'name' => $this->awayTeam->name,
+                    'team_logo_route' => $URL . $this->awayTeam->team_logo_route,
+                ];
+            }),
+            'match_day'    => $this->match_day,
+            'match_time'   => $this->match_time,
+            'home_score'   => $this->home_score,
+            'away_score'   => $this->away_score,
             'match_status' => [
                 'id' => $this->match_status_id, 
-                'name' => config('match_statuses')[$this->match_status_id] ?? NULL                
+                'name' => config('match_statuses')[$this->match_status_id] ?? null                
             ],
-	    'display_score' => $this->displayScore(),
+            'display_score' => $this->displayScore(),
         ];
     }
 }

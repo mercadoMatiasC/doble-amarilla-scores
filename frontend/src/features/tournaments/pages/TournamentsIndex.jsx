@@ -11,7 +11,7 @@ export function TournamentsIndex() {
 
   return (
     <>
-      <div className='rounded flex flex-col text-white bg-black/50 p-5 lg:justify-between w-[80%] space-y-3 lg:flex-row lg:w-1/2 lg:space-y-0'>
+      <div className='rounded flex flex-col text-white bg-black/50 p-5 lg:justify-between w-[80%] space-y-3 lg:flex-row lg:w-1/2 lg:space-y-0 2xl:min-h-165'>
           <div className='space-y-3 lg:w-2/3'>
             {tournaments.map(tournament => (
               <TournamentIndexRow key={tournament.id} tournament={tournament} />

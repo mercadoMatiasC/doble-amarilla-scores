@@ -1,12 +1,12 @@
+import { Link } from "react-router-dom"
+
 export function GameIndexRow({ game }) {
     //STRING TRIMMING
     const home_team_name = game.home_team.name;
     const away_team_name = game.away_team.name;
-    const limit = 13;
+    const limit = 10;
 
     //DATE FORMATTING
-    //const currentYear = new Date().getFullYear(); 
-
     const [year, month, day] = game.match_day.split('-');
     const [hours, minutes, seconds] = game.match_time.split(':');
     const dateObj = new Date(year, month - 1, day, hours, minutes, seconds);
@@ -17,10 +17,10 @@ export function GameIndexRow({ game }) {
 
     return (
         <>
-            <div className='grid justify-between gap-4 items-center grid-cols-[20%_10%_60%] sm:grid-cols-[20%_20%_50%] md:grid-cols-[20%_20%_1px_50%] lg:grid-cols-[11%_13%_1px_68%] xl:grid-cols-[15%_15%_5%_60%] 2xl:grid-cols-[13%_13%_1px_65%]'>
+            <div className='grid justify-between gap-4 items-center grid-cols-[20%_10%_50%] sm:grid-cols-[30%_25%_40%] md:grid-cols-[18%_20%_1px_45%] lg:grid-cols-[16%_13%_1px_60%] xl:grid-cols-[16%_15%_1%_50%] 2xl:grid-cols-[18%_15%_1px_60%]'>
                 {/* -- MATCH DATE -- */}
                 <div className="flex justify-between items-center xl:grid xl:grid-cols-2">
-                    <p>{ formatLZero(dateObj.getDay())+'/'+formatLZero(dateObj.getMonth() + 1)}</p>
+                    <p>{ formatLZero(dateObj.getDate())+'/'+formatLZero(dateObj.getMonth() + 1)+'/'+formatLZero(dateObj.getFullYear())}</p>
                     <p className="hidden sm:flex">{ formatLZero(dateObj.getHours())+':'+formatLZero(dateObj.getMinutes())}</p>
                 </div>
 
@@ -33,29 +33,28 @@ export function GameIndexRow({ game }) {
                 <div className="hidden w-px bg-white/25 h-10 self-stretch md:block"></div>
 
                 {/* -- ACTUAL MATCH -- */}
-                <div className="flex justify-between items-center gap-3 lg:grid lg:grid-cols-[160px_80px_160px_100px]" id="match_teams_display" >
+                <div className="flex justify-between items-center gap-3 lg:grid lg:grid-cols-[30%_12%_30%_100px] xl:grid-cols-[30%_5%_30%_20%] 2xl:grid-cols-[30%_10%_30%_20%]" id="match_teams_display" >
                     {/* -- HOME TEAM -- */}
                     <div className="flex gap-2 justify-between items-center" id="home_team" >
-                        <img className='w-10 xl:w-12' src={game.home_team.team_logo_route} alt="home_team_icon" />
+                        <Link to={`/equipos/${game.home_team.id}`} className="hover:opacity-75 transition-all transition-duration-3s">
+                            <img className='w-10 xl:w-12' src={game.home_team.team_logo_route} alt="home_team_icon" />
+                        </Link>
                         <p className="hidden lg:block">{ (home_team_name.length > limit) ? `${home_team_name.slice(0, limit)}.` : home_team_name}</p> 
                     </div>
 
                     {/* -- SCORE -- */}
                     <div className="flex gap-3 text-xl items-center justify-center">
-                        {game.display_score ? (
-                            <>
-                                <p id="home_score">{game.home_score}</p>
-                                -
-                                <p id="away_score">{game.away_score}</p>
-                            </>
-                        ):'-'
-                        } 
+                        <p id="home_score">{game.display_score ? (game.home_score):'\u00a0'}</p>
+                        -
+                        <p id="away_score">{game.display_score ? (game.away_score):'\u00a0'}</p>
                     </div>
 
                     {/* -- AWAY TEAM -- */}
                     <div className="flex gap-3 justify-between items-center" id="away_team" >
                         <p className="hidden lg:block">{ (away_team_name.length > limit) ? `${away_team_name.slice(0, limit)}.` : away_team_name}</p> 
-                        <img className='w-10 xl:w-12' src={game.away_team.team_logo_route} alt="away_team_icon" />
+                        <Link to={`/equipos/${game.away_team.id}`} className="hover:opacity-75 transition-all transition-duration-3s">
+                            <img className='w-10 xl:w-12' src={game.away_team.team_logo_route} alt="home_team_icon" />
+                        </Link>
                     </div>
 
                     {/* -- MATCH STATUS -- */}

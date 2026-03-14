@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchTeams } from "../api/teamsApi";
+import { fetchTeams } from "../api/getTeams";
 
 export function useTeams() {
   return useQuery({

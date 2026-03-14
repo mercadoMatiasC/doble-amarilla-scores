@@ -32,10 +32,10 @@ PATCH /api/partidos/{id}
 
 El indice de equipos puede filtrarse con los siguientes parametros
 
-/api/games?team_id={id}  
-/api/games?tournament_id={id}  
-/api/games?sort=match_day  
-/api/games?sort=-match_day  
+/api/partidos?team_id={id}  
+/api/partidos?tournament_id={id}  
+/api/partidos?sort=match_day  
+/api/partidos?sort=-match_day  
 
 ## POSTMAN
 

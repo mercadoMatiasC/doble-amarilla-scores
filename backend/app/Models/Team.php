@@ -10,8 +10,6 @@ class Team extends Model
     /** @use HasFactory<\Database\Factories\TeamFactory> */
     use HasFactory;
 
-
-
     //-- RELATIONSHIPS --
     public function homeGames(){
         return $this->hasMany(Game::class, 'home_team_id');
@@ -19,5 +17,15 @@ class Team extends Model
 
     public function awayGames(){
         return $this->hasMany(Game::class, 'away_team_id');
+    }
+
+    public function games(){
+        return Game::where(function($query) {
+            $query->where('home_team_id', $this->id)->orWhere('away_team_id', $this->id);
+        });
+    }
+
+    public function wonTournaments(){
+        return $this->hasMany(Tournament::class, 'winner_team_id');
     }
 }

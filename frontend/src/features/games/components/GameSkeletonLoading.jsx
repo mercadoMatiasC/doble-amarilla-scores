@@ -1,3 +1,5 @@
+import { PageAnimWrapper } from "../../../components/PageAnimWrapper";
+
 export function GameSkeletonLoading() {
     const items = Array.from({ length: 8 }, (_, i) => (
             <div key={i} className='grid justify-between gap-4 h-13 items-center grid-cols-[20%_10%_60%] sm:grid-cols-[20%_20%_50%] md:grid-cols-[20%_20%_1px_50%] lg:grid-cols-[11%_13%_1px_68%] xl:grid-cols-[15%_15%_5%_60%] 2xl:grid-cols-[13%_13%_1px_65%]'>
@@ -36,16 +38,18 @@ export function GameSkeletonLoading() {
 
     return (
         <>
-            <div className='w-[90%] rounded flex flex-col text-white bg-black/50 p-5 space-y-3 sm:w-[80%] 2xl:p-8 2xl:justify-between 2xl:flex-row 2xl:space-y-0'>
-                <div className='space-y-3 2xl:w-3/4'>
-                    <div className='grid justify-between gap-4 items-center grid-cols-[20%_10%_60%] sm:grid-cols-[20%_20%_50%] md:grid-cols-[20%_20%_50%] lg:grid-cols-[11%_14%_70%] xl:grid-cols-[15%_15%_60%] 2xl:grid-cols-[13%_13%_65%]'>
-                        <p>Fecha</p>
-                        <p>Torneo</p>
-                        <p className='hidden lg:flex lg:justify-end'>Estado</p>
+            <PageAnimWrapper>
+                <div className='w-[90%] rounded flex flex-col text-white bg-black/50 p-5 space-y-3 sm:w-[80%] 2xl:p-8 2xl:justify-between 2xl:flex-row 2xl:space-y-0 2xl:min-h-165'>
+                    <div className='space-y-3 2xl:w-3/4'>
+                        <div className='grid justify-between gap-4 items-center grid-cols-[20%_10%_60%] sm:grid-cols-[20%_20%_50%] md:grid-cols-[20%_20%_50%] lg:grid-cols-[11%_14%_70%] xl:grid-cols-[15%_15%_60%] 2xl:grid-cols-[13%_13%_65%]'>
+                            <p>Fecha</p>
+                            <p>Torneo</p>
+                            <p className='hidden lg:flex lg:justify-end'>Estado</p>
+                        </div>
+                        {items}
                     </div>
-                    {items}
                 </div>
-            </div>
+            </PageAnimWrapper>
         </>
     )
 }
