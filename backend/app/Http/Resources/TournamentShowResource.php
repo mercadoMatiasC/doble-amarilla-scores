@@ -7,8 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class TournamentShowResource extends JsonResource{ 
     public function toArray(Request $request): array { 
        	$winner_team  = $this->whenLoaded('winnerTeam');
-       	$games = $this->whenLoaded('games');
-	$URL = 	env('APP_URL').'/storage/';
+	    $URL = 	env('APP_URL').'/storage/';
 
         return [ 
             'id' => $this->id, 
@@ -19,14 +18,13 @@ class TournamentShowResource extends JsonResource{
                 'id' => $this->tournament_status_id, 
                 'name' => config('tournament_statuses')[$this->tournament_status_id], 
             ],
-            'winner_team' => $this->when($winner_team, function () use ($winner_team, $URL) {
+            'winner_team' => $this->when($this->winnerTeam, function () use ($URL) {
                 return [
-                    'id' => $winner_team->id,
-                    'name' => $winner_team->name,
-                    'team_logo_route' => $URL.$winner_team->team_logo_route,
+                    'id' => $this->winnerTeam->id,
+                    'name' => $this->winnerTeam->name,
+                    'team_logo_route' => $URL . $this->winnerTeam->team_logo_route,
                 ];
             }),
-            'games' => TournamentGameResource::collection($games),
         ];
     }
 }

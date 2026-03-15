@@ -24,7 +24,6 @@ class GameIndexResource extends JsonResource{
                 'id' => $this->round_id, 
                 'name' => config('match_round_stages')[$this->round_id] ?? null
             ],
-            // Use the second argument of whenLoaded to safely map the data
             'home_team' => $this->whenLoaded('homeTeam', function() use ($URL) {
                 return [
                     'id'   => $this->homeTeam->id,

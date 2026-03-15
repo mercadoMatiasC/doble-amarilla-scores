@@ -6,7 +6,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
     
 class TournamentIndexResource extends JsonResource{ 
     public function toArray(Request $request): array { 
-	$URL = 	env('APP_URL').'/storage/';
+	    $URL = 	env('APP_URL').'/storage/';
+
         return [
             'id' => $this->id, 
             'name' => $this->name, 

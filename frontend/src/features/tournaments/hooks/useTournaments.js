@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchTournaments } from "../api/tournamentsApi";
+import { fetchTournaments } from "../api/getTournaments";
 
 export function useTournaments() {
   return useQuery({

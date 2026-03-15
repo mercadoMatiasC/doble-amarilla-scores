@@ -18,14 +18,23 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<GamesIndex />} />
 
+          {/* -- TEAMS -- */}
           <Route path="/equipos">
             <Route index element={<TeamsIndex />} />
             <Route path=":id" element={<TeamsShow />} />            
           </Route>
 
-          <Route path="/torneos" element={<TournamentsIndex />} />
+          {/* -- TOURNAMENTS -- */}
+          <Route path="/torneos">
+            <Route index element={<TournamentsIndex />} />
+            <Route path=":id" element={<TournamentsShow />} />            
+          </Route>
 
-          <Route path="/partidos" element={<GamesIndex />} />
+          {/* -- GAMES -- */}
+          <Route path="/partidos">
+            <Route index element={<GamesIndex />} />
+            <Route path=":id" element={<GamesShow />} />            
+          </Route>
         </Route>
       </Routes>
     </AnimatePresence>

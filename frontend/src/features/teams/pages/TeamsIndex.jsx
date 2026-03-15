@@ -1,19 +1,19 @@
 import { TeamIndexRow } from '../components/TeamIndexRow'
 import { useTeams } from "../hooks/useTeams";
 import { MagnifyingGlass } from "../../../components/svgs/MagnifyingGlass"
-import { TeamSkeletonLoading } from '../components/TeamSkeletonLoading';
 import { PageAnimWrapper } from '../../../components/PageAnimWrapper';
+import { LoadingScreen } from '../../../components/LoadingScreen';
 
 export function TeamsIndex() {
   const { data: teams, isLoading, error } = useTeams();
 
-  if (isLoading) return <TeamSkeletonLoading />;
+  if (isLoading) return <LoadingScreen wide={false} />;;
   if (error) return <p className='text-white'>Error cargando equipos</p>;
 
   return (
     <>
       <PageAnimWrapper>
-        <div className='rounded flex flex-col text-white bg-black/50 p-5 lg:justify-between w-[80%] space-y-3 lg:flex-row lg:w-1/2 lg:space-y-0 2xl:min-h-165'>
+        <div className='rounded flex flex-col text-white bg-black/50 p-5 lg:justify-between w-[80%] space-y-3 lg:flex-row lg:w-1/2 lg:space-y-0 2xl:min-h-166'>
             <div className='flex flex-col lg:w-2/3 space-y-4'>
               {teams.map(team => (
                 <TeamIndexRow key={team.id} team={team} />

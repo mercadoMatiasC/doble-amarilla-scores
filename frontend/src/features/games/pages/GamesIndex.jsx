@@ -1,14 +1,13 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { PageAnimWrapper } from '../../../components/PageAnimWrapper';   
 
 import { useGames } from '../hooks/useGames';
 import { useGamesFilters } from '../hooks/useGamesFilters';
 
-import { GameIndexRow } from '../components/GameIndexRow';
-import { GameSkeletonLoading } from '../components/GameSkeletonLoading';
-
 import { DropdownSelect } from '../../../components/forms/DropdownSelect';
 import { DefaultButton } from '../../../components/forms/DefaultButton';
+import { GamesList } from '../components/GamesList';
+import { PageAnimWrapper } from '../../../components/PageAnimWrapper';
+import { LoadingScreen } from '../../../components/LoadingScreen';
 
 export function GamesIndex() {
   const { data, isLoading: gamesLoading, error: gamesError } = useGames();
@@ -51,54 +50,44 @@ export function GamesIndex() {
     navigate(`/partidos?${params}`);
   };
 
-  if (gamesLoading || filtersLoading) return <GameSkeletonLoading />;
+  if (gamesLoading || filtersLoading) return <LoadingScreen wide={true} />;
   if (gamesError   || filtersError) return <p className='text-white'>Error cargando partidos</p>;
 
   return (
     <>
-      <PageAnimWrapper>
-        <div className='w-[90%] rounded flex flex-col text-white bg-black/50 p-5 space-y-3 sm:w-[80%] 2xl:p-8 2xl:justify-between 2xl:flex-row 2xl:space-y-0 2xl:min-h-165'>
-          {games.length > 0 ? (
-            <div className='space-y-3 2xl:w-3/4'>
-              <div className='grid justify-between gap-4 items-center grid-cols-[20%_10%_50%] sm:grid-cols-[30%_25%_40%] md:grid-cols-[18%_20%_45%] lg:grid-cols-[16%_13%_60%] xl:grid-cols-[16%_15%_50%] 2xl:grid-cols-[18%_15%_60%]'>
-                <p>Fecha</p>
-                <p>Torneo</p>
-                <p className='hidden lg:flex lg:justify-end'>Estado</p>
+        <div className='w-[90%] rounded flex flex-col text-white bg-black/50 p-5 space-y-3 sm:w-[80%] 2xl:p-8 2xl:justify-between 2xl:flex-row 2xl:space-y-0 2xl:min-h-166'>
+          <PageAnimWrapper key={meta.current_page} >
+            <GamesList games={games} />
+          </PageAnimWrapper>
+
+          <hr className='my-4 border-white/25 2xl:hidden' />
+          <div className="hidden w-px mx-5 bg-white/25 h-65 mt-5 self-stretch 2xl:block"></div>
+
+          <div className='flex flex-col gap-3 items-baseline 2xl:w-1/5 2xl:flex-col'>
+            <h2>
+              Filtros
+            </h2>
+
+            {/* -- FORM -- */}
+            <form className='flex flex-col w-full space-y-5' onSubmit={handleSubmit}>
+              <label htmlFor="team_id">Por equipo:</label>
+              <DropdownSelect options={filters.teams} name="team_id" defaultValue={selected_team}/>
+
+              <label htmlFor="team_id">Por Torneo:</label>
+              <DropdownSelect options={filters.tournaments} name="tournament_id" defaultValue={selected_tournament}/>
+
+              <div className='flex justify-end mt-3'>
+                <DefaultButton type="submit" name="filter_button" value="Filtrar"/>
               </div>
-            
-              {games.map(game => (
-                <GameIndexRow key={game.id} game={game} />
-              ))}
+            </form>
+
+            {/* -- PAGINATION -- */}
+            <div className='flex flex-row w-full justify-between mt-5 gap-10'>
+              <DefaultButton disabled={meta.current_page === 1}              onClick={() => changePage(meta.current_page - 1)} type="submit" name="filter_button" value="Anterior"/>
+              <DefaultButton disabled={meta.current_page === meta.last_page} onClick={() => changePage(meta.current_page + 1)} type="submit" name="filter_button" value="Siguiente"/>
             </div>
-          ) : (<p>Ningún partido coincide con el criterio de busqueda.</p>)}
-
-            <hr className='my-4 border-white/25 2xl:hidden' />
-            <div className="hidden w-px mx-5 bg-white/25 h-65 mt-5 self-stretch 2xl:block"></div>
-
-            <div className='flex flex-col gap-3 items-baseline 2xl:w-1/5 2xl:flex-col'>
-              <h2>
-                Filtros
-              </h2>
-
-              {/* -- FORM -- */}
-              <form className='flex flex-col w-full space-y-5' onSubmit={handleSubmit}>
-                <label htmlFor="team_id">Por equipo:</label>
-                <DropdownSelect options={filters.teams} name="team_id" defaultValue={selected_team}/>
-
-                <label htmlFor="team_id">Por Torneo:</label>
-                <DropdownSelect options={filters.tournaments} name="tournament_id" defaultValue={selected_tournament}/>
-
-                <div className='flex justify-end mt-3'>
-                  <DefaultButton type="submit" name="filter_button" value="Filtrar"/>
-                </div>
-              </form>
-              <div className='flex flex-row w-full justify-between mt-5 gap-10'>
-                <DefaultButton disabled={meta.current_page === 1}              onClick={() => changePage(meta.current_page - 1)} type="submit" name="filter_button" value="Anterior"/>
-                <DefaultButton disabled={meta.current_page === meta.last_page} onClick={() => changePage(meta.current_page + 1)} type="submit" name="filter_button" value="Siguiente"/>
-              </div>
-            </div>
+          </div>
         </div>
-      </PageAnimWrapper>
     </>
   )
 }

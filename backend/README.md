@@ -15,6 +15,7 @@ GET   /api/equipos
 POST  /api/equipos  
 GET   /api/equipos/{id}  
 PATCH /api/equipos/{id}  
+GET   /api/equipos/{id}/informacion  
 
 Torneos:  
 GET   /api/torneos  
@@ -27,6 +28,7 @@ GET   /api/partidos
 POST  /api/partidos  
 GET   /api/partidos/{id}   
 PATCH /api/partidos/{id}  
+GET   /api/partidos/filtros  
 
 ## Filtros de partidos
 

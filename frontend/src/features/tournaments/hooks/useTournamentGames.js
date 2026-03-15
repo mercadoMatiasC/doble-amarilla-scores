@@ -1,14 +1,13 @@
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { fetchGames } from "../api/getGames";
+import { fetchGames } from "../../games/api/getGames";
 
-export function useGames() {
+export function useTournamentGames(id) {
   const [searchParams] = useSearchParams();
 
   const filters = {
-    team_id: searchParams.get("team_id") || "",
-    tournament_id: searchParams.get("tournament_id") || "",
-    sort: searchParams.get("sort") || "-match_day",
+    tournament_id: id,
+    sort: "-match_day",
     page: searchParams.get("page") || 1
   };
 

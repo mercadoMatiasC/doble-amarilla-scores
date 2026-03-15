@@ -13,9 +13,14 @@ class GameFilter extends QueryFilter {
         $this->builder->where('tournament_id', $tournament_id);
     }
 
-    public function sort($value){
+    public function sort($value) {
+        $allowed = ['match_day', 'created_at'];
+
         $direction = str_starts_with($value, '-') ? 'desc' : 'asc';
         $column = ltrim($value, '-');
+
+        if (!in_array($column, $allowed))
+            return;
 
         $this->builder->orderBy($column, $direction);
     }

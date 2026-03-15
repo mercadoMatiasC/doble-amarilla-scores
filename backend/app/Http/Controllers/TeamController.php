@@ -7,7 +7,6 @@ use App\Http\Resources\GameIndexResource;
 use App\Http\Resources\TeamIndexResource;
 use App\Http\Resources\TeamShowResource;
 use App\Http\Resources\TeamStoreResource;
-use App\Http\Resources\TournamentGameResource;
 use App\Http\Resources\TournamentIndexResource;
 use App\Models\Game;
 use App\Models\Team;
@@ -40,7 +39,7 @@ class TeamController extends Controller
 
     public function getData(Team $team) {
         $previous_games = GameIndexResource::collection($team->games()->with(['homeTeam', 'awayTeam', 'tournament'])->where('match_day',  '<', now())->orderBy('match_day', 'desc')->limit(3)->get());
-        $upcoming_games = GameIndexResource::collection($team->games()->with(['homeTeam', 'awayTeam', 'tournament'])->where('match_day', '>=', now())->orderBy('match_day', 'asc')->limit(3)->get());
+        $upcoming_games = GameIndexResource::collection($team->games()->with(['homeTeam', 'awayTeam', 'tournament'])->where('match_day', '>=', now())->orderBy('match_day', 'desc')->limit(3)->get());
         $won_tournaments = TournamentIndexResource::collection($team->wonTournaments()->get());
 
         return response()->json([

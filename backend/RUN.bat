@@ -1,4 +1,9 @@
 @echo off
+:: Start XAMPP Minimized
 start /min "Xampp" "D:\xampp\xampp-control.exe"
-powershell -window minimized -NoExit -command "php artisan serve --host=0.0.0.0 --port=8000"
 
+:: Start Frontend in a new, titled window
+start "Frontend-App" /D "D:\xampp\htdocs\DobleAmarillaScores\frontend" "RUN.bat"
+
+:: Start Backend via PowerShell (Minimized, NoExit)
+start /min powershell -NoExit -command "cd D:\xampp\htdocs\DobleAmarillaScores\backend; php artisan serve --host=0.0.0.0 --port=8000"

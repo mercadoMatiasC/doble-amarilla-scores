@@ -6,6 +6,8 @@ import { TeamGames } from "../components/TeamGames";
 import { LoadingScreen } from "../../../components/LoadingScreen";
 import { TeamTournaments } from "../components/TeamTournaments";
 import { useState } from "react";
+import { PageAnimWrapper } from "../../../components/PageAnimWrapper";
+import { AnimatePresence } from "framer-motion";
 
 export function TeamsShow() {
   const { id } = useParams(); //TO ACCESS PASSED PARAMETERS
@@ -14,7 +16,7 @@ export function TeamsShow() {
   const [activeTab, setActiveTab] = useState("games");
 
   //MANAGE STATES
-  if (isLoading || team_data_loading) return <LoadingScreen />;
+  if (isLoading || team_data_loading) return <LoadingScreen wide={true} />;
   if (error     || team_data_error)  return <p>{error.message}</p>;
 
   const [year, month, day] = team.founded_date.split('-');
@@ -66,10 +68,17 @@ export function TeamsShow() {
 
           {/* -- RIGHT PANEL */}
           <div className='flex flex-col gap-3 items-baseline 2xl:w-3/4 2xl:flex-col'>
-            {activeTab === "games"
-              ? <TeamGames team_data={team_data} />
-              : <TeamTournaments tournaments={team_data.won_tournaments} />
-            }
+            <AnimatePresence mode="wait">
+              {activeTab === "games" ? (
+                <PageAnimWrapper key="games">
+                  <TeamGames team_data={team_data} />
+                </PageAnimWrapper>
+              ) : (
+                <PageAnimWrapper key="tournaments">
+                  <TeamTournaments tournaments={team_data.won_tournaments} />
+                </PageAnimWrapper>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </>

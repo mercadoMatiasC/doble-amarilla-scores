@@ -26,7 +26,7 @@ class TournamentController extends Controller{
     }
 
     public function show(Tournament $tournament) {
-        $tournament->load(['winnerTeam', 'games', 'games.homeTeam', 'games.awayTeam']);
+        $tournament->load(['winnerTeam']);
         return (new TournamentShowResource($tournament));
     }
 

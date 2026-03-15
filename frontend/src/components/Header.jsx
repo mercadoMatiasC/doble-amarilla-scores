@@ -4,11 +4,13 @@ import '../App.css'
 export function Header() {
     return (
         <>
-            <header className='flex justify-center items-center mt-4'>
-                <section className='w-2/3 flex flex-col text-white items-center sm:flex-row sm:justify-between'>
-                    <img className='p-3 w-[60%] sm:w-[30%] md:w-[25%] lg:w-[20%] 2xl:w-[16%]' src="/brand/logo_wtext.png" alt="doble_amarilla_logo" />
+            <header className='flex justify-center mt-4'>
+                <section className='w-2/3 flex flex-col text-white sm:flex-row sm:justify-between'>
+                    <Link to="/partidos" className='flex w-full h-full justify-center sm:justify-start'>
+                        <img className='p-3 w-45' src="/brand/logo_wtext.png" alt="doble_amarilla_logo" />
+                    </Link>
 
-                    <div className='flex flex-row justify-between gap-6'>
+                    <div className='flex flex-row justify-between gap-6 items-center'>
                         <nav className='flex gap-5'>
                             <Link to="/equipos">Equipos</Link>
                             <Link to="/torneos">Torneos</Link>

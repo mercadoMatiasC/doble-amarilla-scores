@@ -4,6 +4,7 @@ export function GameIndexRow({ game }) {
     //STRING TRIMMING
     const home_team_name = game.home_team.name;
     const away_team_name = game.away_team.name;
+    const tournament = game.tournament;
     const limit = 10;
 
     //DATE FORMATTING
@@ -25,10 +26,12 @@ export function GameIndexRow({ game }) {
                 </div>
 
                 {/* -- MATCH TOURNAMENT -- */}
-                <div className="flex flex-row items-center gap-3" id="match_tournament_display">
-                    <img className='w-8 xl:w-10' src={game.tournament.tournament_logo_route} alt="tournament_icon" />
-                    <p className="hidden sm:block">{ game.round.name }</p>
-                </div>
+                <Link to={`/torneos/${tournament.id}`} className="hover:opacity-75 transition-all transition-duration-3s">
+                    <div className="flex flex-row items-center gap-3" id="match_tournament_display">
+                        <img className='w-8 xl:w-10' src={tournament.tournament_logo_route} alt="tournament_icon" />
+                        <p className="hidden sm:block">{ game.round.name }</p>
+                    </div>
+                </Link>
 
                 <div className="hidden w-px bg-white/25 h-10 self-stretch md:block"></div>
 
