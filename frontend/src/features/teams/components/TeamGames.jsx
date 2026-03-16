@@ -1,9 +1,6 @@
 import { GameIndexRow } from '../../games/components/GameIndexRow';
 
-export function TeamGames({ team_data }) {
-    const previous_games = team_data?.previous_games ?? [];
-    const upcoming_games = team_data?.upcoming_games ?? [];
-
+export function TeamGames({ previous_games, upcoming_games }) {
     return (
         <>
             <div className='w-full rounded flex flex-col text-white p-5 space-y-20 2xl:p-8 2xl:min-h-150'>

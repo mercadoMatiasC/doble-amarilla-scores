@@ -42,6 +42,7 @@ class GameIndexResource extends JsonResource{
             'match_time'   => $this->match_time,
             'home_score'   => $this->home_score,
             'away_score'   => $this->away_score,
+            'minutes_played' => $this->minutes_played,
             'match_status' => [
                 'id' => $this->match_status_id, 
                 'name' => config('match_statuses')[$this->match_status_id] ?? null                

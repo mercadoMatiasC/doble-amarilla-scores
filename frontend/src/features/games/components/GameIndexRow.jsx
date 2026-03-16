@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom"
+import { ScoreDisplay } from "./ScoreDisplay";
+import { PageAnimWrapper } from "../../../components/PageAnimWrapper";
 
 export function GameIndexRow({ game }) {
     //STRING TRIMMING
@@ -6,6 +8,8 @@ export function GameIndexRow({ game }) {
     const away_team_name = game.away_team.name;
     const tournament = game.tournament;
     const limit = 10;
+    const isLive = [1, 2, 6].includes(game.match_status.id);
+    const gridClasses = "px-2 rounded-xl grid justify-between gap-4 items-center grid-cols-[20%_10%_50%] sm:grid-cols-[30%_25%_40%] md:grid-cols-[18%_20%_1px_45%] lg:grid-cols-[16%_13%_1px_60%] xl:grid-cols-[16%_15%_1%_50%] 2xl:grid-cols-[18%_15%_1px_60%]";
 
     //DATE FORMATTING
     const [year, month, day] = game.match_day.split('-');
@@ -18,7 +22,7 @@ export function GameIndexRow({ game }) {
 
     return (
         <>
-            <div className='grid justify-between gap-4 items-center grid-cols-[20%_10%_50%] sm:grid-cols-[30%_25%_40%] md:grid-cols-[18%_20%_1px_45%] lg:grid-cols-[16%_13%_1px_60%] xl:grid-cols-[16%_15%_1%_50%] 2xl:grid-cols-[18%_15%_1px_60%]'>
+            <div className={`${gridClasses} ${isLive ? 'bg-red-500/10' : ''}`}>               
                 {/* -- MATCH DATE -- */}
                 <div className="flex justify-between items-center xl:grid xl:grid-cols-2">
                     <p>{ formatLZero(dateObj.getDate())+'/'+formatLZero(dateObj.getMonth() + 1)+'/'+formatLZero(dateObj.getFullYear())}</p>
@@ -47,9 +51,11 @@ export function GameIndexRow({ game }) {
 
                     {/* -- SCORE -- */}
                     <div className="flex gap-3 text-xl items-center justify-center">
-                        <p id="home_score">{game.display_score ? (game.home_score):'\u00a0'}</p>
-                        -
-                        <p id="away_score">{game.display_score ? (game.away_score):'\u00a0'}</p>
+                        <>
+                            <ScoreDisplay score={game.display_score ? (game.home_score):'\u00a0'} isLive={isLive} />  
+                                <span>-</span>
+                            <ScoreDisplay score={game.display_score ? (game.away_score):'\u00a0'} isLive={isLive} />
+                        </>
                     </div>
 
                     {/* -- AWAY TEAM -- */}
@@ -61,7 +67,16 @@ export function GameIndexRow({ game }) {
                     </div>
 
                     {/* -- MATCH STATUS -- */}
-                    <p className="hidden justify-end lg:flex">{ game.match_status.name }</p>
+                    <div className="hidden justify-end lg:flex items-center gap-2">
+                        { (game.match_status.id == 1) ? ( //LIVE  
+                            <>
+                                <p className="px-1 rounded bg-red-600">{game.match_status.name}</p>
+                                <p className="animate-pulse">{game.minutes_played}'</p>
+                            </>
+                        ):(
+                            <p>{game.match_status.name}</p>
+                        )}
+                    </div>
                 </div>
             </div>
         </>

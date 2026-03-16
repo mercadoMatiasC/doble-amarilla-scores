@@ -1,86 +1,55 @@
 import { useParams } from "react-router-dom";
-import { useTeam } from "../hooks/useTeam";
-import { DefaultButton } from "../../../components/forms/DefaultButton";
-import { useTeamData } from "../hooks/useTeamData";
-import { TeamGames } from "../components/TeamGames";
-import { LoadingScreen } from "../../../components/LoadingScreen";
-import { TeamTournaments } from "../components/TeamTournaments";
 import { useState } from "react";
-import { PageAnimWrapper } from "../../../components/PageAnimWrapper";
 import { AnimatePresence } from "framer-motion";
+import { useTeam } from "../hooks/useTeam";
+import { useTeamData } from "../hooks/useTeamData";
+import { useLiveSync } from "../../games/hooks/useLiveSync";
+import { TeamGames } from "../components/TeamGames";
+import { TeamTournaments } from "../components/TeamTournaments";
+import { TeamShowDisplay } from "../components/TeamShowDisplay";
+import { DefaultButton } from "../../../components/forms/DefaultButton";
+import { LoadingScreen } from "../../../components/LoadingScreen";
+import { PageAnimWrapper } from "../../../components/PageAnimWrapper";
 
 export function TeamsShow() {
-  const { id } = useParams(); //TO ACCESS PASSED PARAMETERS
+  const { id } = useParams();
   const { data: team, isLoading, error } = useTeam(id);
   const { data: team_data, isLoading: team_data_loading, error: team_data_error } = useTeamData(id);
   const [activeTab, setActiveTab] = useState("games");
+  const { mergedGames: upcoming_games } = useLiveSync(team_data?.upcoming_games, 'team_data');
 
-  //MANAGE STATES
   if (isLoading || team_data_loading) return <LoadingScreen wide={true} />;
-  if (error     || team_data_error)  return <p>{error.message}</p>;
-
-  const [year, month, day] = team.founded_date.split('-');
-  const formated_date = new Date(year, month, day);
-
-  function formatLZero(text){
-    return ('0' + text).slice(-2)
-  }
+  if (error || team_data_error) return <p>{error?.message || team_data_error?.message}</p>;
   
   return (
-      <>
-        <div className='w-[90%] rounded flex flex-col text-white bg-black/50 p-5 space-y-3 sm:w-[80%] 2xl:p-8 2xl:justify-between 2xl:flex-row 2xl:space-y-0 2xl:min-h-150'>
-          <div className='flex flex-col justify-between 2xl:w-1/4'>
-            <div className="space-y-7">
-              {/* -- METADATA -- */}
-              <div className="flex justify-between items-center px-7 py-2">
-                <p className="text-white/30 italic py-1 px-3 rounded bg-white/5">ID: #{team.id}</p> 
-                <p className="text-white/70">Editar</p> 
-              </div>
+    <div className='w-[90%] rounded flex flex-col text-white bg-black/50 p-5 space-y-3 sm:w-[80%] 2xl:p-8 2xl:justify-between 2xl:flex-row 2xl:space-y-0 2xl:min-h-150'>
+      {/* -- LEFT PANEL */}
+      <div className='flex flex-col justify-between 2xl:w-1/4'>
+        <TeamShowDisplay team={team} />
 
-              {/* -- ICON AND TITLE -- */}
-              <div className="flex items-center gap-8 px-7">
-                <img className='w-20' src={team.team_logo_route} alt="team_icon" />
-                <h2 className="text-xl">{team.name}</h2>
-              </div>
-              
-              {/* -- INFORMATION -- */}
-              <div className="flex flex-col space-y-5 text-[17px] px-7 mb-5">
-                <div className="flex items-center gap-3">
-                  <p>Apodo:</p> 
-                  <p className="text-white/40 italic">"{team.nickname}"</p> 
-                </div>
-                <p>Provincia: {team.province.name}</p> 
-                <p>Fundado el { formatLZero(formated_date.getDate())+'/'+formatLZero(formated_date.getMonth())+'/'+formated_date.getFullYear()}</p> 
-                <p>Estadio: {team.stadium}</p>
-              </div>
-            </div>
-
-            {/* -- TABS -- */}
-            <div className="flex justify-between items-center px-7 py-2 gap-10 mt-8">
-              <DefaultButton value="Partidos"    onClick={() => setActiveTab("games")}       active={activeTab === "games"} />
-              <DefaultButton value="Campeonatos" onClick={() => setActiveTab("tournaments")} active={activeTab === "tournaments"} />
-            </div>
-          </div>
-
-          {/* -- DIVIDERS -- */}
-          <hr className='my-4 border-white/25 2xl:hidden' />
-          <div className="hidden w-px mx-5 bg-white/25 h-65 mt-5 self-stretch 2xl:block"></div>
-
-          {/* -- RIGHT PANEL */}
-          <div className='flex flex-col gap-3 items-baseline 2xl:w-3/4 2xl:flex-col'>
-            <AnimatePresence mode="wait">
-              {activeTab === "games" ? (
-                <PageAnimWrapper key="games">
-                  <TeamGames team_data={team_data} />
-                </PageAnimWrapper>
-              ) : (
-                <PageAnimWrapper key="tournaments">
-                  <TeamTournaments tournaments={team_data.won_tournaments} />
-                </PageAnimWrapper>
-              )}
-            </AnimatePresence>
-          </div>
+        <div className="flex justify-between items-center px-7 py-2 gap-10 mt-8">
+          <DefaultButton value="Partidos" onClick={() => setActiveTab("games")} active={activeTab === "games"} />
+          <DefaultButton value="Campeonatos" onClick={() => setActiveTab("tournaments")} active={activeTab === "tournaments"} />
         </div>
-      </>
-    );
+      </div>
+
+      <hr className='my-4 border-white/25 2xl:hidden' />
+      <div className="hidden w-px mx-5 bg-white/25 h-65 mt-5 self-stretch 2xl:block"></div>
+
+      {/* -- RIGHT PANEL */}
+      <div className='flex flex-col gap-3 items-baseline 2xl:w-3/4 2xl:flex-col'>
+        <AnimatePresence mode="wait">
+          {activeTab === "games" ? (
+            <PageAnimWrapper key="games">
+              <TeamGames previous_games={team_data.previous_games} upcoming_games={upcoming_games} />
+            </PageAnimWrapper>
+          ) : (
+            <PageAnimWrapper key="tournaments">
+              <TeamTournaments tournaments={team_data.won_tournaments} />
+            </PageAnimWrapper>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
 }

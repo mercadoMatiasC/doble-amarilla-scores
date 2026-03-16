@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Filters\GameFilter;
 use App\Http\Requests\GameRequest;
 use App\Http\Resources\GameIndexResource;
-use App\Http\Resources\GameShowResource;
+use App\Http\Resources\LiveDataResource;
 use App\Http\Resources\OptionsResource;
 use App\Models\Game;
 use App\Models\Team;
@@ -30,6 +30,12 @@ class GameController extends Controller {
         ]);
     }
 
+    public function getLiveData() {
+        $liveMatches = Game::whereIn('match_status_id', [1, 2, 6])->select(['id', 'home_score', 'away_score', 'minutes_played', 'match_status_id'])->get();
+
+        return LiveDataResource::collection($liveMatches);
+    }
+
     public function create() {
         //
     }
@@ -38,13 +44,13 @@ class GameController extends Controller {
         $game = $gameService->storeGame($request->validated());
         $game->load(['homeTeam', 'awayTeam', 'tournament']);
         
-        return (new GameShowResource($game))->response()->setStatusCode(201);
+        return (new GameIndexResource($game))->response()->setStatusCode(201);
     }
 
     public function show(Game $game) {
         $game->load(['homeTeam', 'awayTeam', 'tournament']);
 
-        return (new GameShowResource($game));
+        return (new GameIndexResource($game));
     }
 
     public function edit(Game $game) {
@@ -55,6 +61,6 @@ class GameController extends Controller {
         $game = $gameService->updateGame($request->validated(), $game);
         $game->load(['homeTeam', 'awayTeam', 'tournament']);
         
-        return (new GameShowResource($game))->response()->setStatusCode(200);
+        return (new GameIndexResource($game))->response()->setStatusCode(200);
     }
 }

@@ -1,6 +1,7 @@
 import { GameIndexRow } from "./GameIndexRow";
 
 export function GamesList({ games }){
+
     return (
         games.length > 0 ? (
             <div className='space-y-3 w-full'>
@@ -9,7 +10,6 @@ export function GamesList({ games }){
                     <p>Torneo</p>
                     <p className='hidden lg:flex lg:justify-end'>Estado</p>
                 </div>
-
 
                 {games.map(game => (
                     <GameIndexRow key={game.id} game={game} />

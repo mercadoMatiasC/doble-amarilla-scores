@@ -20,6 +20,7 @@ Route::patch ('torneos/{tournament}', [TournamentController::class, 'update']);
 //-- GAMES --
 Route::get   ('partidos/', [GameController::class, 'index']);
 Route::post  ('partidos/', [GameController::class, 'store']);
+Route::get   ('partidos/vivo', [GameController::class, 'getLiveData']);
 Route::get   ('partidos/filtros', [GameController::class, 'filters']);
 Route::get   ('partidos/{game}',  [GameController::class, 'show']);
 Route::patch ('partidos/{game}',  [GameController::class, 'update']);
