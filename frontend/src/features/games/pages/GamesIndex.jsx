@@ -36,7 +36,7 @@ export function GamesIndex() {
   };
 
   if (gamesLoading || filtersLoading) return <LoadingScreen wide={true} />;
-  if (gamesError || filtersError) return <p className='text-white'>Error cargando partidos</p>;
+  if (gamesError   || filtersError) return <p className='text-white'>Error cargando partidos</p>;
 
   return (
     <>

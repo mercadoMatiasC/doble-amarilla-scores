@@ -1,20 +1,18 @@
 import { Link } from "react-router-dom"
 import { ScoreDisplay } from "./ScoreDisplay";
-import { PageAnimWrapper } from "../../../components/PageAnimWrapper";
 
 export function GameIndexRow({ game }) {
-    //STRING TRIMMING
     const home_team_name = game.home_team.name;
     const away_team_name = game.away_team.name;
     const tournament = game.tournament;
     const limit = 10;
     const isLive = [1, 2, 6].includes(game.match_status.id);
-    const gridClasses = "px-2 rounded-xl grid justify-between gap-4 items-center grid-cols-[20%_10%_50%] sm:grid-cols-[30%_25%_40%] md:grid-cols-[18%_20%_1px_45%] lg:grid-cols-[16%_13%_1px_60%] xl:grid-cols-[16%_15%_1%_50%] 2xl:grid-cols-[18%_15%_1px_60%]";
+    const grid_classes = "px-2 rounded-xl grid justify-between gap-4 items-center grid-cols-[20%_10%_50%] sm:grid-cols-[30%_25%_40%] md:grid-cols-[22%_18%_1px_45%] lg:grid-cols-[16%_13%_1px_60%] xl:grid-cols-[16%_15%_1%_50%] 2xl:grid-cols-[18%_15%_1px_60%]";
 
     //DATE FORMATTING
     const [year, month, day] = game.match_day.split('-');
-    const [hours, minutes, seconds] = game.match_time.split(':');
-    const dateObj = new Date(year, month - 1, day, hours, minutes, seconds);
+    const [hours, minutes] = game.match_time.split(':');
+    const dateObj = new Date(year, (month || 1) - 1, day || 1, hours || 0, minutes || 0);
 
     function formatLZero(text){
         return ('0' + text).slice(-2)
@@ -22,15 +20,17 @@ export function GameIndexRow({ game }) {
 
     return (
         <>
-            <div className={`${gridClasses} ${isLive ? 'bg-red-500/10' : ''}`}>               
+            <div className={`${grid_classes} ${isLive ? 'bg-red-500/10' : ''}`}>               
                 {/* -- MATCH DATE -- */}
-                <div className="flex justify-between items-center xl:grid xl:grid-cols-2">
-                    <p>{ formatLZero(dateObj.getDate())+'/'+formatLZero(dateObj.getMonth() + 1)+'/'+formatLZero(dateObj.getFullYear())}</p>
-                    <p className="hidden sm:flex">{ formatLZero(dateObj.getHours())+':'+formatLZero(dateObj.getMinutes())}</p>
-                </div>
+                <Link to={`/partidos/${game.id}`} className="hover:opacity-75 transition-all transition-duration-3s">
+                    <div className="flex justify-between items-center xl:grid xl:grid-cols-2">
+                        <p>{formatLZero(dateObj.getDate())}/{formatLZero(dateObj.getMonth() + 1)}/{dateObj.getFullYear()}</p>
+                        <p className="hidden sm:flex justify-end">{formatLZero(dateObj.getHours())}:{formatLZero(dateObj.getMinutes())}</p>
+                    </div>
+                </Link>
 
                 {/* -- MATCH TOURNAMENT -- */}
-                <Link to={`/torneos/${tournament.id}`} className="hover:opacity-75 transition-all transition-duration-3s">
+                <Link to={`/torneos/${tournament.id}`} className="flex flex-row items-center gap-3 hover:opacity-75 transition-all transition-duration-3s" id="match_tournament_display">
                     <div className="flex flex-row items-center gap-3" id="match_tournament_display">
                         <img className='w-8 xl:w-10' src={tournament.tournament_logo_route} alt="tournament_icon" />
                         <p className="hidden sm:block">{ game.round.name }</p>

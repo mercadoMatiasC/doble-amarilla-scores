@@ -8,10 +8,10 @@ export function GamesFilterSidebar({ filters, meta, onSubmit, onChangePage, sele
       
       <form className='flex flex-col w-full space-y-5' onSubmit={onSubmit}>
         <label htmlFor="team_id">Por equipo:</label>
-        <DropdownSelect options={filters.teams} name="team_id" defaultValue={selectedTeam}/>
+        <DropdownSelect options={filters.teams} name="team_id" defaultValue={selectedTeam} required={false} />
 
         <label htmlFor="tournament_id">Por Torneo:</label>
-        <DropdownSelect options={filters.tournaments} name="tournament_id" defaultValue={selectedTournament} />
+        <DropdownSelect options={filters.tournaments} name="tournament_id" defaultValue={selectedTournament} required={false} />
 
         <div className='flex justify-end mt-3'>
           <DefaultButton type="submit" name="filter_button" value="Filtrar"/>

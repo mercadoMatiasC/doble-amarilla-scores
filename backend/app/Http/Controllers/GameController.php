@@ -30,14 +30,40 @@ class GameController extends Controller {
         ]);
     }
 
+    public function getMatchStatuses(){
+        $matchstatuses = [];
+
+        foreach (config('match_statuses') as $index => $value){
+            $match_status['id'] = $index;
+            $match_status['name'] = $value;
+
+            array_push($matchstatuses, $match_status);
+        }
+
+        return response()->json([
+            'match_statuses' => $matchstatuses
+        ]);
+    }
+
+    public function getMatchRoundStages(){
+        $matchroundstages = [];
+
+        foreach (config('match_round_stages') as $index => $value){
+            $match_round_stage['id'] = $index;
+            $match_round_stage['name'] = $value;
+
+            array_push($matchroundstages, $match_round_stage);
+        }
+
+        return response()->json([
+            'match_round_stages' => $matchroundstages
+        ]);
+    }
+
     public function getLiveData() {
         $liveMatches = Game::whereIn('match_status_id', [1, 2, 6])->select(['id', 'home_score', 'away_score', 'minutes_played', 'match_status_id'])->get();
 
         return LiveDataResource::collection($liveMatches);
-    }
-
-    public function create() {
-        //
     }
 
     public function store(GameRequest $request, GameService $gameService) {
@@ -51,10 +77,6 @@ class GameController extends Controller {
         $game->load(['homeTeam', 'awayTeam', 'tournament']);
 
         return (new GameIndexResource($game));
-    }
-
-    public function edit(Game $game) {
-        //
     }
 
     public function update(GameRequest $request, Game $game, GameService $gameService) {

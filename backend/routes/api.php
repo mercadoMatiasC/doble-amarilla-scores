@@ -22,6 +22,8 @@ Route::get   ('partidos/', [GameController::class, 'index']);
 Route::post  ('partidos/', [GameController::class, 'store']);
 Route::get   ('partidos/vivo', [GameController::class, 'getLiveData']);
 Route::get   ('partidos/filtros', [GameController::class, 'filters']);
+Route::get   ('partidos/estados', [GameController::class, 'getMatchStatuses']);
+Route::get   ('partidos/fases', [GameController::class, 'getMatchRoundStages']);
 Route::get   ('partidos/{game}',  [GameController::class, 'show']);
 Route::patch ('partidos/{game}',  [GameController::class, 'update']);
 

@@ -5,7 +5,7 @@ import { TeamsShow }  from "./features/teams/pages/TeamsShow"
 import { TournamentsIndex } from "./features/tournaments/pages/TournamentsIndex"
 import { TournamentsShow }  from "./features/tournaments/pages/TournamentsShow"
 import { GamesIndex } from "./features/games/pages/GamesIndex"
-import { GamesShow }  from "./features/games/pages/GamesShow"
+import { GameEdit }  from "./features/games/pages/GameEdit"
 import { AnimatePresence } from "framer-motion";
 
 export default function App() {
@@ -33,7 +33,7 @@ export default function App() {
           {/* -- GAMES -- */}
           <Route path="/partidos">
             <Route index element={<GamesIndex />} />
-            <Route path=":id" element={<GamesShow />} />            
+            <Route path=":id" element={<GameEdit />} />            
           </Route>
         </Route>
       </Routes>

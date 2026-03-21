@@ -71,7 +71,7 @@ class Game extends Model
         $current = $this->match_status_id;
         $allowed = self::$allowedTransitions[$current] ?? [];
 
-        if (!in_array($newStatus, $allowed))
+        if (!in_array($newStatus, $allowed) && ($newStatus != $current))
             throw new BusinessException("Invalid match status transition.");
 
         $this->match_status_id = $newStatus;
