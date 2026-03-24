@@ -65,7 +65,6 @@ class Game extends Model
         return $this->belongsTo(Team::class, 'away_team_id');
     }
 
-
     //-- SETTINGS --
     public function changeStatus(int $newStatus){
         $current = $this->match_status_id;

@@ -1,7 +1,7 @@
-const API_URL = "http://192.168.100.228:8000/api/partidos/fases";
+import { API_URL } from "../../../constants/api";
 
 export async function fetchGameRoundStages() {
-  const res = await fetch(API_URL);
+  const res = await fetch(`${API_URL}/partidos/fases`);
   const data = await res.json();
 
   return data.match_round_stages;

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 //-- TEAMS --
 Route::get   ('equipos/', [TeamController::class, 'index']);
 Route::post  ('equipos/', [TeamController::class, 'store']);
+Route::get   ('equipos/escudos', [TeamController::class, 'getLogos']);
+Route::get   ('equipos/provincias', [TeamController::class, 'getProvinces']);
 Route::get   ('equipos/{team}', [TeamController::class, 'show']);
 Route::patch ('equipos/{team}', [TeamController::class, 'update']);
 Route::get   ('equipos/{team}/informacion', [TeamController::class, 'getData']);
@@ -14,6 +16,9 @@ Route::get   ('equipos/{team}/informacion', [TeamController::class, 'getData']);
 //-- TOURNAMENT --
 Route::get   ('torneos/', [TournamentController::class, 'index']);
 Route::post  ('torneos/', [TournamentController::class, 'store']);
+Route::get   ('torneos/logos', [TournamentController::class, 'getLogos']);
+Route::get   ('torneos/nombres', [TournamentController::class, 'getNames']);
+Route::get   ('torneos/estados', [TournamentController::class, 'getStatuses']);
 Route::get   ('torneos/{tournament}', [TournamentController::class, 'show']);
 Route::patch ('torneos/{tournament}', [TournamentController::class, 'update']);
 

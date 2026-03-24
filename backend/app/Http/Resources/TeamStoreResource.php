@@ -6,8 +6,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
     
 class TeamStoreResource extends JsonResource{ 
     public function toArray(Request $request): array { 
-	$URL = 	env('APP_URL').'/storage/';
-
         return [ 
             'id' => $this->id, 
             'name' => $this->name, 
@@ -18,7 +16,7 @@ class TeamStoreResource extends JsonResource{
             ],
             'founded_date' => $this->founded_date,
             'stadium' => $this->stadium, 
-            'team_logo_route' => $URL.$this->team_logo_route, 
+            'team_logo_route' => $this->team_logo_route, 
         ]; 
     } 
 }

@@ -7,6 +7,7 @@ import { TournamentsShow }  from "./features/tournaments/pages/TournamentsShow"
 import { GamesIndex } from "./features/games/pages/GamesIndex"
 import { GameEdit }  from "./features/games/pages/GameEdit"
 import { AnimatePresence } from "framer-motion";
+import { TeamCreate } from "./features/teams/pages/TeamCreate";
 
 export default function App() {
   const location = useLocation();
@@ -21,6 +22,7 @@ export default function App() {
           {/* -- TEAMS -- */}
           <Route path="/equipos">
             <Route index element={<TeamsIndex />} />
+            <Route path="registrar" element={<TeamCreate />} />
             <Route path=":id" element={<TeamsShow />} />            
           </Route>
 

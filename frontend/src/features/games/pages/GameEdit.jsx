@@ -22,7 +22,6 @@ export function GameEdit() {
   const { data: game_statuses, isLoading: game_statuses_Loading, error: game_statuses_Error } = useGameStatuses();
   const { data: game_round_stages, isLoading: game_round_stages_Loading, error: game_round_stages_Error } = useGameRoundStages();
   const updateGameMutation = useUpdateGame();
-
   const [formData, setFormData] = useState({
     home_score: 0,
     away_score: 0,
@@ -121,7 +120,7 @@ export function GameEdit() {
           {/* -- STATS PANEL -- */}
           <StatsPanel formData={formData} onChange={handleChange} game_statuses={game_statuses} />
   
-          {/* -- STATS PANEL -- */}
+          {/* -- ENCOUNTER PANEL -- */}
           <EncounterPanel formData={formData} data={data} onChange={handleChange} />
 
           {/* -- MESSAGES -- */}

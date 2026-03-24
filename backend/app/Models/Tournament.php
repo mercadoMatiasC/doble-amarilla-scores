@@ -41,9 +41,9 @@ class Tournament extends Model
         $current = $this->tournament_status_id;
         $allowed = self::$allowedTransitions[$current] ?? [];
 
-        if (!in_array($newStatus, $allowed))
+        if (!in_array($newStatus, $allowed) && ($newStatus != $current) && ($this->online_status))
             throw new BusinessException("Invalid tournament status transition.");
 
-        $this->match_stournament_status_idtatus_id = $newStatus;
+        $this->tournament_status_id = $newStatus;
     }
 }

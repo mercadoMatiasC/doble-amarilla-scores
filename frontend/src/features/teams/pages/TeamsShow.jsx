@@ -10,6 +10,7 @@ import { TeamShowDisplay } from "../components/TeamShowDisplay";
 import { DefaultButton } from "../../../components/forms/DefaultButton";
 import { LoadingScreen } from "../../../components/LoadingScreen";
 import { PageAnimWrapper } from "../../../components/PageAnimWrapper";
+import { TeamForm } from "../components/TeamForm";
 
 export function TeamsShow() {
   const { id } = useParams();
@@ -25,7 +26,7 @@ export function TeamsShow() {
     <div className='w-[90%] rounded flex flex-col text-white bg-black/50 p-5 space-y-3 sm:w-[80%] 2xl:p-8 2xl:justify-between 2xl:flex-row 2xl:space-y-0 2xl:min-h-150'>
       {/* -- LEFT PANEL */}
       <div className='flex flex-col justify-between 2xl:w-1/4'>
-        <TeamShowDisplay team={team} />
+        <TeamShowDisplay team={team} setActiveTab={setActiveTab}/>
 
         <div className="flex justify-between items-center px-7 py-2 gap-10 mt-8">
           <DefaultButton value="Partidos" onClick={() => setActiveTab("games")} active={activeTab === "games"} />
@@ -39,13 +40,19 @@ export function TeamsShow() {
       {/* -- RIGHT PANEL */}
       <div className='flex flex-col gap-3 items-baseline 2xl:w-3/4 2xl:flex-col'>
         <AnimatePresence mode="wait">
-          {activeTab === "games" ? (
+          {activeTab === "games" && (
             <PageAnimWrapper key="games">
               <TeamGames previous_games={team_data.previous_games} upcoming_games={upcoming_games} />
             </PageAnimWrapper>
-          ) : (
+          )}
+          {activeTab === "tournaments" && (
             <PageAnimWrapper key="tournaments">
               <TeamTournaments tournaments={team_data.won_tournaments} />
+            </PageAnimWrapper>
+          )}
+          {activeTab === "editform" && (
+            <PageAnimWrapper key="editform">
+              <TeamForm team={team} />
             </PageAnimWrapper>
           )}
         </AnimatePresence>

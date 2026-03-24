@@ -1,7 +1,7 @@
-const API_URL = "http://192.168.100.228:8000/api/partidos";
+import { API_URL } from "../../../constants/api";
 
 export async function updateGame(id, data) {
-  const res = await fetch(`${API_URL}/${id}`, {
+  const res = await fetch(`${API_URL}/partidos/${id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

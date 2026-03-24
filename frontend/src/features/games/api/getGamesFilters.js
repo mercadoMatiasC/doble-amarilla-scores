@@ -1,7 +1,7 @@
-const API_URL = "http://192.168.100.228:8000/api/partidos/filtros";
+import { API_URL } from "../../../constants/api";
 
 export async function fetchGamesFilters() {
-  const res = await fetch(API_URL);
+  const res = await fetch(`${API_URL}/partidos/filtros`);
   const data = await res.json();
 
   return data;

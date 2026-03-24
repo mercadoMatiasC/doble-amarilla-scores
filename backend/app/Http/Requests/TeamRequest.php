@@ -37,6 +37,7 @@ class TeamRequest extends FormRequest{
             'province_id'  => ['required', 'integer', Rule::in(array_keys(config('provinces')))],
             'founded_date' => ['required', 'date'],
             'stadium'      => ['nullable', 'string'],
+            'team_logo_route' => ['nullable', 'string'],
             'team_logo'    => ['nullable', 'image', 'max:1024'],
         ];
     }

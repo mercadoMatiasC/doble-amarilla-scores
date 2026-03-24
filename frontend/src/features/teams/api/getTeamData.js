@@ -1,7 +1,7 @@
-const API_URL = "http://192.168.100.228:8000/api/equipos";
+import { API_URL } from "../../../constants/api";
 
 export async function fetchTeamData(id) {
-  const res = await fetch(`${API_URL}/${id}/informacion`);
+  const res = await fetch(`${API_URL}/equipos/${id}/informacion`);
   const data = await res.json();
 
   return data.data;

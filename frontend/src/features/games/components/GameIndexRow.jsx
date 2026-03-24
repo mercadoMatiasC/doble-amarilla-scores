@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { ScoreDisplay } from "./ScoreDisplay";
+import { STORAGE_URL } from "../../../constants/api";
 
 export function GameIndexRow({ game }) {
     const home_team_name = game.home_team.name;
@@ -32,7 +33,7 @@ export function GameIndexRow({ game }) {
                 {/* -- MATCH TOURNAMENT -- */}
                 <Link to={`/torneos/${tournament.id}`} className="flex flex-row items-center gap-3 hover:opacity-75 transition-all transition-duration-3s" id="match_tournament_display">
                     <div className="flex flex-row items-center gap-3" id="match_tournament_display">
-                        <img className='w-8 xl:w-10' src={tournament.tournament_logo_route} alt="tournament_icon" />
+                        <img className='w-8 xl:w-10' src={STORAGE_URL+tournament.tournament_logo_route} alt="tournament_icon" />
                         <p className="hidden sm:block">{ game.round.name }</p>
                     </div>
                 </Link>
@@ -44,7 +45,7 @@ export function GameIndexRow({ game }) {
                     {/* -- HOME TEAM -- */}
                     <div className="flex gap-2 justify-between items-center" id="home_team" >
                         <Link to={`/equipos/${game.home_team.id}`} className="hover:opacity-75 transition-all transition-duration-3s">
-                            <img className='w-10 xl:w-12' src={game.home_team.team_logo_route} alt="home_team_icon" />
+                            <img className='w-10 xl:w-12' src={STORAGE_URL+game.home_team.team_logo_route} alt="home_team_icon" />
                         </Link>
                         <p className="hidden lg:block">{ (home_team_name.length > limit) ? `${home_team_name.slice(0, limit)}.` : home_team_name}</p> 
                     </div>
@@ -62,7 +63,7 @@ export function GameIndexRow({ game }) {
                     <div className="flex gap-3 justify-between items-center" id="away_team" >
                         <p className="hidden lg:block">{ (away_team_name.length > limit) ? `${away_team_name.slice(0, limit)}.` : away_team_name}</p> 
                         <Link to={`/equipos/${game.away_team.id}`} className="hover:opacity-75 transition-all transition-duration-3s">
-                            <img className='w-10 xl:w-12' src={game.away_team.team_logo_route} alt="home_team_icon" />
+                            <img className='w-10 xl:w-12' src={STORAGE_URL+game.away_team.team_logo_route} alt="home_team_icon" />
                         </Link>
                     </div>
 

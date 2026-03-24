@@ -11,24 +11,49 @@ use App\Http\Resources\TournamentIndexResource;
 use App\Models\Game;
 use App\Models\Team;
 use App\Services\TeamService;
-use Carbon\Carbon;
 
-class TeamController extends Controller
-{
+class TeamController extends Controller {
     public function index() {
         $teams = Team::paginate(8);
         
         return (TeamIndexResource::collection($teams));
     }
 
-    public function create() {
-        //
-    }
-
     public function store(TeamRequest $request, TeamService $team_service) {
         $team = $team_service->storeTeam($request->validated());
         
         return (new TeamStoreResource($team))->response()->setStatusCode(201);
+    }
+
+    public function getProvinces(){
+        $provinces = [];
+
+        foreach (config('provinces') as $index => $value){
+            $province['id'] = $index;
+            $province['name'] = $value;
+
+            array_push($provinces, $province);
+        }
+
+        return response()->json([
+            'provinces' => $provinces
+        ]);
+    }
+
+    public function getLogos(){
+        $team_logos = Team::select('team_logo_route')->distinct()->get();
+        $team_logo_routes = [];
+
+        foreach ($team_logos as $index => $value){
+            $team_logo['id'] = $index;
+            $team_logo['route'] = $value->team_logo_route;
+
+            array_push($team_logo_routes, $team_logo);
+        }
+
+        return response()->json([
+            'team_logo_routes' => $team_logo_routes
+        ]);
     }
 
     public function show(Team $team) {
@@ -49,10 +74,6 @@ class TeamController extends Controller
                 'won_tournaments' => $won_tournaments,
             ],
         ]);
-    }
-
-    public function edit(Team $team) {
-        //
     }
 
     public function update(TeamRequest $request, Team $team, TeamService $team_service) {

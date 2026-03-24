@@ -33,8 +33,12 @@ class TournamentRequest extends FormRequest{
     {
         return [
             'name'    => ['required', 'string'],
+            'tournament_logo_route' => ['string'],
             'tournament_logo' => ['nullable', 'image', 'max:1024'],
             'edition' => ['required', 'string'],
+            'tournament_status_id' => ['required', 'numeric', 'integer'],
+            'online_status' => ['required', 'boolean'],
+            'winner_team_id' => ['nullable', 'integer', 'exists:teams,id'],
         ];
     }
 }
