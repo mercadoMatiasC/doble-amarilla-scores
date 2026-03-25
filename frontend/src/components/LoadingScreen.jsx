@@ -1,9 +1,7 @@
-import { PageAnimWrapper } from "./PageAnimWrapper";
 import { SoccerBall } from "./svgs/SoccerBall";
 
-
-export function LoadingScreen({ wide }) {
-    const base_class = "flex flex-col min-h-100 rounded text-white bg-black/50 space-y-3 2xl:min-h-166";
+export function LoadingScreen({ wide, withBG = true }) {
+    const base_class = `flex flex-col min-h-100 rounded text-white space-y-3 ${withBG ? '2xl:min-h-170 bg-black/50':'' } `;
 
     return (
         <div className={`${base_class} ${wide 

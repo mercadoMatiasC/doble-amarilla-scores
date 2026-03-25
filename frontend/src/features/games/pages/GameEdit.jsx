@@ -3,7 +3,6 @@ import { useGame } from "../hooks/useGame";
 import { LoadingScreen } from "../../../components/LoadingScreen";
 import { GameIndexRow } from "../components/GameIndexRow";
 import { PageAnimWrapper } from "../../../components/PageAnimWrapper";
-import { useState } from "react";
 import { useGameStatuses } from "../hooks/useGameStatuses";
 import { useGameRoundStages } from "../hooks/useGameRoundStages";
 import { useGamesFilters } from "../../games/hooks/useGamesFilters"
@@ -28,7 +27,7 @@ export function GameEdit() {
   
   return (
     <PageAnimWrapper>
-      <section className='flex flex-col text-white w-[90%] justify-center items-center lg:w-4/5 2xl:min-h-166 2xl:w-1/2'>
+      <section className='flex flex-col text-white w-[90%] justify-center items-center lg:w-4/5 2xl:min-h-170 2xl:w-1/2'>
         <div className="w-full py-2 px-4 bg-white/10 text-white/50 rounded-lg rounded-b-none">
           <p>ID: #{game.id}</p>
         </div>

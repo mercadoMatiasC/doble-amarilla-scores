@@ -38,7 +38,7 @@ export function TournamentsShow() {
 
   return (
       <>
-        <div className='w-[90%] rounded flex flex-col text-white bg-black/50 p-5 space-y-3 sm:w-[80%] 2xl:p-8 2xl:justify-between 2xl:flex-row 2xl:space-y-0 2xl:min-h-165'>
+        <div className='w-[90%] rounded flex flex-col text-white bg-black/50 p-5 space-y-3 sm:w-[80%] 2xl:p-8 2xl:justify-between 2xl:flex-row 2xl:space-y-0 2xl:min-h-170'>
           <div className='flex flex-col justify-between 2xl:w-1/4'>
             <TournamentShowDisplay tournament={tournament} setActiveTab={setActiveTab} />
 

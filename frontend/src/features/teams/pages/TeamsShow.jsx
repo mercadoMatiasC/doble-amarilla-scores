@@ -23,7 +23,7 @@ export function TeamsShow() {
   if (error || team_data_error) return <p>{error?.message || team_data_error?.message}</p>;
   
   return (
-    <div className='w-[90%] rounded flex flex-col text-white bg-black/50 p-5 space-y-3 sm:w-[80%] 2xl:p-8 2xl:justify-between 2xl:flex-row 2xl:space-y-0 2xl:min-h-150'>
+    <div className='w-[90%] rounded flex flex-col text-white bg-black/50 p-5 space-y-3 sm:w-[80%] 2xl:p-8 2xl:justify-between 2xl:flex-row 2xl:space-y-0 2xl:min-h-170'>
       {/* -- LEFT PANEL */}
       <div className='flex flex-col justify-between 2xl:w-1/4'>
         <TeamShowDisplay team={team} setActiveTab={setActiveTab}/>

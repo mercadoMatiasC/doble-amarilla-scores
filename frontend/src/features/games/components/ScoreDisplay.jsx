@@ -14,8 +14,6 @@ export function ScoreDisplay({ score, isLive }) {
       return () => clearTimeout(timer);
     }
 
-    // 3. Always update the Ref to the current score so the next change 
-    // is measured correctly, but this doesn't trigger a re-render!
     prevScoreRef.current = score;
   }, [score, isLive]);
 

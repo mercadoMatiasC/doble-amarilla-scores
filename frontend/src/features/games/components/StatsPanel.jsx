@@ -23,7 +23,7 @@ export function StatsPanel({ formData, onChange, game_statuses }) {
 
             <div className="grid grid-cols-2 items-center gap-3">
                 <label htmlFor="match_status_id">Estado</label>
-                <DropdownSelect options={game_statuses} name="match_status_id" defaultValue={formData.match_status_id} onChange={onChange} />
+                <DropdownSelect options={game_statuses} name="match_status_id" value={formData.match_status_id} onChange={onChange} />
             </div>
         </div>
     );

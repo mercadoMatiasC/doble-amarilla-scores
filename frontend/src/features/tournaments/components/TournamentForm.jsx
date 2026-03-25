@@ -8,18 +8,19 @@ import { ImageDropdown } from "../../../components/forms/ImageDropdown";
 import { DropdownSelect } from "../../../components/forms/DropdownSelect";
 
 import { useState } from "react";
-import { useTeams } from "../../teams/hooks/useTeams";
 import { useUpdateTournament } from "../hooks/useUpdateTournament";
 import { useTournamentNames } from "../hooks/useTournamentNames";
 import { useTournamentLogos } from "../hooks/useTournamentLogos";
 import { useTournamentStatuses } from "../hooks/useTournamentStatuses";
 import { useStoreTournament } from "../hooks/useStoreTournament";
+import { useGamesFilters } from "../../games/hooks/useGamesFilters";
+import { LoadingScreen } from "../../../components/LoadingScreen";
 
 export function TournamentForm({ tournament }) {
   const { data: tournament_names, isLoading: tournament_names_Loading, error: tournament_names_Error } = useTournamentNames();
   const { data: tournament_logos, isLoading: tournament_logos_Loading, error: tournament_logos_Error } = useTournamentLogos();
   const { data: tournament_statuses, isLoading: tournament_statuses_Loading, error: tournament_statuses_Error } = useTournamentStatuses();
-  const { data: teams, teams_Loading, teams_Error } = useTeams();
+  const { data: filters, isLoading: filters_Loading, error: filters_Error } = useGamesFilters();
   const updateTournamentMutation = useUpdateTournament();
   const storeTournamentMutation = useStoreTournament();
   
@@ -101,8 +102,10 @@ export function TournamentForm({ tournament }) {
       });
   }
 
-  if (tournament_logos_Loading || tournament_names_Loading || tournament_statuses_Loading || teams_Loading) return <p className="2xl:min-h-150">Loading...</p>;
-  if (tournament_logos_Error || tournament_names_Error || tournament_statuses_Error || teams_Error) return <p className='text-white'>Error cargando información.</p>;
+  if (tournament_logos_Loading || tournament_names_Loading || tournament_statuses_Loading || filters_Loading) return <LoadingScreen wide={true} withBG={false} />;
+  if (tournament_logos_Error || tournament_names_Error || tournament_statuses_Error || filters_Error) return <p className='text-white'>Error cargando información.</p>;
+
+  const teams = filters.teams;
 
   return (
     <div className='w-full rounded text-white p-5 2xl:p-8 2xl:min-h-150'>

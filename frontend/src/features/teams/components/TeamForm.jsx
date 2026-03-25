@@ -9,6 +9,7 @@ import { InputFile } from "../../../components/forms/InputFile";
 import { ImageDropdown } from "../../../components/forms/ImageDropdown";
 import { useUpdateTeam } from "../hooks/useUpdateTeam";
 import { useStoreTeam } from "../hooks/useStoreTeam";
+import { LoadingScreen } from "../../../components/LoadingScreen";
 
 export function TeamForm({ team = null }) {
   const { data: provinces, isLoading: provinces_Loading, error: provincesError } = useProvinces();
@@ -78,7 +79,7 @@ export function TeamForm({ team = null }) {
     }
   }, [team]);
 
-  if (provinces_Loading || team_logos_Loading) return <p className="2xl:min-h-150">Loading...</p>;
+  if (provinces_Loading || team_logos_Loading) return <LoadingScreen wide={true} withBG={false} />;
   if (provincesError || team_logos_Error) return <p className='text-white'>Error cargando información.</p>;
 
   return (
@@ -120,7 +121,9 @@ export function TeamForm({ team = null }) {
         </div>  
 
         <div className="flex flex-col justify-between">
-            <DefaultButton type="submit" value="Guardar" />
+            <div className="flex items-end justify-end">
+              <DefaultButton type="submit" value="Guardar" />
+            </div>
             {/* -- MESSAGES -- */}
             <MutationMessage mutation={mutation} />
         </div>

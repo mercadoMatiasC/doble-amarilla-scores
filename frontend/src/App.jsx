@@ -1,14 +1,18 @@
-import { Routes, Route, useLocation } from "react-router-dom";
 import { Layout } from "./layout/Layout";
-import { TeamsIndex } from "./features/teams/pages/TeamsIndex"
-import { TeamsShow }  from "./features/teams/pages/TeamsShow"
-import { TournamentsIndex } from "./features/tournaments/pages/TournamentsIndex"
-import { TournamentsShow }  from "./features/tournaments/pages/TournamentsShow"
-import { GamesIndex } from "./features/games/pages/GamesIndex"
-import { GameEdit }  from "./features/games/pages/GameEdit"
+import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+
+import { TeamsIndex } from "./features/teams/pages/TeamsIndex";
 import { TeamCreate } from "./features/teams/pages/TeamCreate";
+import { TeamsShow  } from "./features/teams/pages/TeamsShow";
+
+import { TournamentsIndex } from "./features/tournaments/pages/TournamentsIndex";
 import { TournamentCreate } from "./features/tournaments/pages/TournamentCreate";
+import { TournamentsShow  } from "./features/tournaments/pages/TournamentsShow"
+
+import { GamesIndex } from "./features/games/pages/GamesIndex";
+import { GameCreate } from "./features/games/pages/GameCreate";
+import { GameEdit   } from "./features/games/pages/GameEdit";
 
 export default function App() {
   const location = useLocation();
@@ -37,6 +41,7 @@ export default function App() {
           {/* -- GAMES -- */}
           <Route path="/partidos">
             <Route index element={<GamesIndex />} />
+            <Route path="registrar" element={<GameCreate />} />
             <Route path=":id" element={<GameEdit />} />            
           </Route>
         </Route>

@@ -13,7 +13,7 @@ export function TournamentsIndex() {
   return (
     <>
       <PageAnimWrapper>
-        <div className='rounded flex flex-col text-white bg-black/50 p-5 lg:justify-between w-[80%] space-y-3 lg:flex-row lg:w-1/2 lg:space-y-0 2xl:min-h-166'>
+        <div className='rounded flex flex-col text-white bg-black/50 p-8 lg:justify-between w-[80%] space-y-3 lg:flex-row lg:w-1/2 lg:space-y-0 2xl:min-h-170'>
             <div className='space-y-3 lg:w-2/3'>
               {tournaments.map(tournament => (
                 <TournamentIndexRow key={tournament.id} tournament={tournament} />
@@ -28,7 +28,7 @@ export function TournamentsIndex() {
                 Buscar
               </h2>
               <form action="#" className='flex flex-row w-full'>
-                <input  className="w-full bg-white/10 rounded rounded-r-none border border-white/20" type="search" name="team_q" />
+                <input  className="w-full bg-white/10 rounded rounded-r-none p-2 border border-white/20" placeholder="Buscar..." type="search" name="team_q" />
                 <button className="bg-white/10 rounded rounded-l-none p-1" type="submit">
                   <MagnifyingGlass />
                 </button>
