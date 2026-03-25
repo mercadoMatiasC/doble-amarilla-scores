@@ -22,7 +22,7 @@ export function TeamForm({ team = null }) {
   const [formData, setFormData] = useState({
     name: team?.name || "",
     nickname: team?.nickname || "",
-    province_id: team?.province?.id || "",
+    province_id: team?.province?.id || 0,
     founded_date: team?.founded_date || "",
     stadium: team?.stadium || "",
     team_logo_route: team?.team_logo_route || "",
@@ -51,16 +51,15 @@ export function TeamForm({ team = null }) {
   }
 
   function handleSubmit(e) {
-    console.log(formData);
     e.preventDefault();
 
     if (team)
-      updateTeamMutation.mutate({
+      mutation.mutate({
         id: team.id,
         data: formData,
       });
     else
-      storeTeamMutation.mutate({
+      mutation.mutate({
         data: formData,
       });
   }
@@ -85,7 +84,7 @@ export function TeamForm({ team = null }) {
   return (
     <div className='w-full rounded text-white p-5 2xl:p-8 2xl:min-h-150'>
       <form className="flex flex-col w-full space-y-4" onSubmit={handleSubmit} encType="multipart/form-data" >
-        <h2>{isEdit ? "Actualizar equipo" : "Crear nuevo equipo"}</h2>
+        <h2>{isEdit ? "Actualizar equipo" : "Registrar nuevo equipo"}</h2>
         <div className="grid grid-cols-2 items-center gap-3">
           <label htmlFor="name">Nombre</label>
           <InputText name="name" value={formData.name} onChange={handleChange} />
@@ -120,14 +119,10 @@ export function TeamForm({ team = null }) {
           <InputText name="stadium" value={formData.stadium} onChange={handleChange} />
         </div>  
 
-        <div className="flex justify-between">
-          <div className="flex w-1/2 justify-center">
+        <div className="flex flex-col justify-between">
+            <DefaultButton type="submit" value="Guardar" />
             {/* -- MESSAGES -- */}
             <MutationMessage mutation={mutation} />
-          </div>
-          <div className="flex w-1/2 justify-end">
-            <DefaultButton type="submit" value="Guardar" />
-          </div>
         </div>
       </form>
     </div>

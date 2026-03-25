@@ -47,7 +47,7 @@ export function GamesIndex() {
 
         <hr className='my-4 border-white/25 2xl:hidden' />
         <div className="hidden w-px mx-5 bg-white/25 h-65 mt-5 self-stretch 2xl:block"></div>
-
+        {console.log("Team: "+searchParams.get("team_id") + " | Tournament: " + searchParams.get("tournament_id"))}
         <GamesFilterSidebar filters={filters} meta={data.meta} onSubmit={handleSubmit} onChangePage={changePage} selectedTeam={searchParams.get("team_id") || ""} selectedTournament={searchParams.get("tournament_id") || ""} />
       </div>
     </>

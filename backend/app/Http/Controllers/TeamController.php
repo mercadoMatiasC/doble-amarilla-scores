@@ -7,6 +7,7 @@ use App\Http\Resources\GameIndexResource;
 use App\Http\Resources\TeamIndexResource;
 use App\Http\Resources\TeamShowResource;
 use App\Http\Resources\TeamStoreResource;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\TournamentIndexResource;
 use App\Models\Game;
 use App\Models\Team;
@@ -14,7 +15,7 @@ use App\Services\TeamService;
 
 class TeamController extends Controller {
     public function index() {
-        $teams = Team::paginate(8);
+        $teams = Team::orderBy('name')->paginate(8);
         
         return (TeamIndexResource::collection($teams));
     }
@@ -41,18 +42,17 @@ class TeamController extends Controller {
     }
 
     public function getLogos(){
-        $team_logos = Team::select('team_logo_route')->distinct()->get();
-        $team_logo_routes = [];
+        $files = Storage::disk('public')->files('team_logos');
 
-        foreach ($team_logos as $index => $value){
-            $team_logo['id'] = $index;
-            $team_logo['route'] = $value->team_logo_route;
-
-            array_push($team_logo_routes, $team_logo);
-        }
+        $logos = collect($files)->map(function ($path) {
+            return [
+                'id' => pathinfo($path, PATHINFO_FILENAME),
+                'route' => str_replace('storage/', '', Storage::url($path)),
+            ];
+        });
 
         return response()->json([
-            'team_logo_routes' => $team_logo_routes
+            'team_logo_routes' => $logos
         ]);
     }
 
@@ -63,7 +63,7 @@ class TeamController extends Controller {
     }
 
     public function getData(Team $team) {
-        $previous_games = GameIndexResource::collection($team->games()->with(['homeTeam', 'awayTeam', 'tournament'])->where('match_day',  '<', now())->orderBy('match_day', 'desc')->limit(3)->get());
+        $previous_games = GameIndexResource::collection($team->games()->with(['homeTeam', 'awayTeam', 'tournament'])->where('match_day', '<', now())->orderBy('match_day', 'desc')->limit(3)->get());
         $upcoming_games = GameIndexResource::collection($team->games()->with(['homeTeam', 'awayTeam', 'tournament'])->where('match_day', '>=', now())->orderBy('match_day', 'desc')->limit(3)->get());
         $won_tournaments = TournamentIndexResource::collection($team->wonTournaments()->get());
 

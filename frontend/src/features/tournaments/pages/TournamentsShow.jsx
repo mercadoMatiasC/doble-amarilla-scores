@@ -6,20 +6,23 @@ import { PageAnimWrapper } from "../../../components/PageAnimWrapper";
 import { AnimatePresence } from "framer-motion";
 import { useTournamentGames } from "../hooks/useTournamentGames";
 import { TournamentGames } from "../components/TournamentGames";
-import { TournamentEditForm } from "../components/TournamentEditForm";
 import { useState } from "react";
 import { TournamentShowDisplay } from "../components/TournamentShowDisplay";
+import { TournamentForm } from "../components/TournamentForm";
+import { useLiveSync } from "../../games/hooks/useLiveSync";
 
 export function TournamentsShow() {
   const { id } = useParams(); //TO ACCESS PASSED PARAMETERS
-  const { data: tournament, isLoading, error } = useTournament(id);
-  const { data: games_data, isLoading: gamesLoading, error: gamesError } = useTournamentGames(id);
-  const [activeTab, setActiveTab] = useState("games");
-
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const games = games_data?.data ?? [];
+  const [activeTab, setActiveTab] = useState("games");
+
+  const { data: tournament, isLoading, error } = useTournament(id);
+  const { data: games_data, isLoading: gamesLoading, error: gamesError } = useTournamentGames(id);
+
+  const raw_games = games_data?.data ?? [];
   const meta = games_data?.meta;
+  const { mergedGames: live_games } = useLiveSync(raw_games, 'games_data');
 
   //PAGINATION HANDLER
   const changePage = (page) => {
@@ -62,12 +65,13 @@ export function TournamentsShow() {
             <AnimatePresence mode="wait">
               {activeTab === "games" && (
                 <PageAnimWrapper key={meta.current_page}>
-                  <TournamentGames tournament_games={games} />
+                  <TournamentGames tournament_games={live_games} />
                 </PageAnimWrapper>
               )}
+              
               {activeTab === "editform" && (
                 <PageAnimWrapper key="editform">
-                  <TournamentEditForm tournament={tournament} />
+                  <TournamentForm tournament={tournament} />
                 </PageAnimWrapper>
               )}
             </AnimatePresence>

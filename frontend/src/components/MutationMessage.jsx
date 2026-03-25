@@ -1,12 +1,28 @@
 export function MutationMessage({ mutation }) {
-    return (
-        (mutation.isError || mutation.isSuccess) && (
-            <div id="stats_panel" className="flex rounded p-3">
-                <p className={`flex ${mutation.isError  ? 'text-red-400' : 'text-green-500'}  w-full justify-center items-center`}>
-                    {mutation.isSuccess && ('Actualizado correctamente!')}
-                    {mutation.isError && (mutation.error.message || mutation.errors[0] || "Error al actualizar el recurso")}
-                </p>
-            </div>
-        )
-    );
+  if (!mutation.isError && !mutation.isSuccess) 
+    return null;
+  const validationErrors = mutation.error?.errors;
+
+  return (
+    <div id="stats_panel" className="flex rounded p-3 w-full">
+      <div className={`flex flex-col w-full space-y-1 ${mutation.isError ? 'text-red-400' : 'text-green-500'}`}>
+        {mutation.isSuccess && <span>¡Guardado correctamente!</span>}
+        {mutation.isError && (
+          <>
+            {validationErrors ? (
+              Object.keys(validationErrors).map((field) => (
+                validationErrors[field].map((message, i) => (
+                  <p key={`${field}-${i}`} className="text-sm">
+                    {message}
+                  </p>
+                ))
+              ))
+            ) : (
+              <p>{mutation.error?.message || "Error al actualizar el recurso"}</p>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
 }

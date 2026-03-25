@@ -1,12 +1,20 @@
-export function DropdownSelect({ options, name, value, onChange, required = true }) {
+export function DropdownSelect({ options, name, value, onChange, required = true, sideID = ""}) {
   return (
-    <select name={name} value={value} onChange={onChange} className="w-full bg-white/10 rounded border border-white/20 p-2">
+    <select name={name} value={value ?? ""} onChange={onChange} className="w-full bg-white/10 rounded border border-white/20 p-2" >
       {!required && 
         <option value="" className="bg-black/90">Seleccionar...</option>
       }
 
       {options?.map(option => (
         <option key={option.id} value={option.id} className="bg-black/90 p-2">
+          {(sideID == "id") && (
+            "ID: #"+option.id+" | "
+          )}
+
+          {(sideID == "edition") && (
+            option.edition+" "
+          )}
+
           {option.name}
         </option>
       ))}

@@ -1,14 +1,14 @@
 import { API_URL } from "../../../constants/api";
 
-export async function storeTeam(data) {
+export async function storeTournament(data) {
   const formData = new FormData();
 
   Object.keys(data).forEach(key => {
     if (data[key] !== null && data[key] !== undefined)
       formData.append(key, data[key]);
   });
-
-  const res = await fetch(`${API_URL}/equipos`, {
+  
+  const res = await fetch(`${API_URL}/torneos`, {
     method: "POST",
     body: formData, 
   });

@@ -11,19 +11,19 @@ export function EncounterPanel({ formData, onChange, data }) {
             <h2 className="mt-5">Competición</h2>
             <div className="grid grid-cols-2 items-center gap-3 2xl:grid-cols-4">
                 <label htmlFor="tournament_id">Torneo</label>
-                <DropdownSelect options={data.tournaments} name="tournament_id" value={formData.tournament_id} onChange={onChange} />                     
+                <DropdownSelect options={data.tournaments} name="tournament_id" defaultValue={formData.tournament_id} onChange={onChange} sideID="edition" />
 
                 <label htmlFor="round_id">Fase</label>
-                <DropdownSelect options={data.round_stages} name="round_id" value={formData.round_id} onChange={onChange} />
+                <DropdownSelect options={data.round_stages} name="round_id" defaultValue={formData.round_id} onChange={onChange} />
             </div>
 
             <h2 className="mt-5">Equipos</h2>
             <div className="grid grid-cols-2 items-center gap-3 2xl:grid-cols-4">
                 <label htmlFor="home_team_id">Local</label>
-                <DropdownSelect options={home_options} name="home_team_id" value={formData.home_team_id} onChange={onChange} />
+                <DropdownSelect options={home_options} name="home_team_id" defaultValue={formData.home_team_id} onChange={onChange} sideID="id" />
 
                 <label htmlFor="away_team_id">Visitante</label>
-                <DropdownSelect options={away_options} name="away_team_id" value={formData.away_team_id} onChange={onChange} />
+                <DropdownSelect options={away_options} name="away_team_id" defaultValue={formData.away_team_id} onChange={onChange} sideID="id" />
             </div>
 
             <h2 className="mt-5">Fecha</h2>

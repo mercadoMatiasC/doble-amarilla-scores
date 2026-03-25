@@ -7,10 +7,11 @@ use App\Http\Resources\TournamentIndexResource;
 use App\Http\Resources\TournamentShowResource;
 use App\Models\Tournament;
 use App\Services\TournamentService;
+use Illuminate\Support\Facades\Storage;
 
 class TournamentController extends Controller{
     public function index() {
-        $tournaments = Tournament::paginate(8);
+        $tournaments = Tournament::orderBy('name')->orderBy('edition', 'asc')->paginate(8);
         return (TournamentIndexResource::collection($tournaments));
     }
 
@@ -46,18 +47,17 @@ class TournamentController extends Controller{
     }
 
     public function getLogos(){
-        $tournament_logos = Tournament::select('tournament_logo_route')->distinct()->get();
-        $tournament_logo_routes = [];
+        $files = Storage::disk('public')->files('tournament_logos');
 
-        foreach ($tournament_logos as $index => $value){
-            $tournament_logo['id'] = $index;
-            $tournament_logo['route'] = $value->tournament_logo_route;
-
-            array_push($tournament_logo_routes, $tournament_logo);
-        }
+        $logos = collect($files)->map(function ($path) {
+            return [
+                'id' => pathinfo($path, PATHINFO_FILENAME),
+                'route' => str_replace('storage/', '', Storage::url($path)),
+            ];
+        });
 
         return response()->json([
-            'tournament_logo_routes' => $tournament_logo_routes
+            'tournament_logo_routes' => $logos
         ]);
     }
 
@@ -72,7 +72,6 @@ class TournamentController extends Controller{
         $tournament->load(['winnerTeam']);
         return (new TournamentShowResource($tournament));
     }
-
 
     public function update(TournamentRequest $request, Tournament $tournament, TournamentService $tournament_service) {
         $tournament = $tournament_service->updateTournament($request->validated(), $tournament);

@@ -6,7 +6,6 @@ use App\Filters\GameFilter;
 use App\Http\Requests\GameRequest;
 use App\Http\Resources\GameIndexResource;
 use App\Http\Resources\LiveDataResource;
-use App\Http\Resources\OptionsResource;
 use App\Models\Game;
 use App\Models\Team;
 use App\Models\Tournament;
@@ -21,8 +20,8 @@ class GameController extends Controller {
     }
 
     public function filters(){
-        $teams = OptionsResource::collection(Team::orderBy('name')->get());
-        $tournaments = OptionsResource::collection(Tournament::orderBy('name')->get());
+        $teams = Team::get();
+        $tournaments = Tournament::orderBy('edition', 'desc')->orderBy('name')->get();
         
         return response()->json([
             'teams' => $teams,

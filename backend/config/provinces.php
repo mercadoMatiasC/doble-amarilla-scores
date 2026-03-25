@@ -24,4 +24,5 @@
         21 => 'Santiago del Estero',
         22 => 'Tierra del Fuego',
         23 => 'Tucumán',
+        24 => 'INTERNACIONAL',
     ];

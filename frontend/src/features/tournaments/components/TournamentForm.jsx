@@ -13,23 +13,28 @@ import { useUpdateTournament } from "../hooks/useUpdateTournament";
 import { useTournamentNames } from "../hooks/useTournamentNames";
 import { useTournamentLogos } from "../hooks/useTournamentLogos";
 import { useTournamentStatuses } from "../hooks/useTournamentStatuses";
+import { useStoreTournament } from "../hooks/useStoreTournament";
 
-export function TournamentEditForm({ tournament }) {
+export function TournamentForm({ tournament }) {
   const { data: tournament_names, isLoading: tournament_names_Loading, error: tournament_names_Error } = useTournamentNames();
   const { data: tournament_logos, isLoading: tournament_logos_Loading, error: tournament_logos_Error } = useTournamentLogos();
   const { data: tournament_statuses, isLoading: tournament_statuses_Loading, error: tournament_statuses_Error } = useTournamentStatuses();
   const { data: teams, teams_Loading, teams_Error } = useTeams();
   const updateTournamentMutation = useUpdateTournament();
+  const storeTournamentMutation = useStoreTournament();
+  
+  const isEdit = !!tournament;
+  const mutation = isEdit ? updateTournamentMutation : storeTournamentMutation; 
 
   const [formData, setFormData] = useState({
     new_name: "",
-    existing_name: tournament.name,
-    name: tournament.name,
-    edition: tournament.edition,
-    tournament_logo_route: tournament.tournament_logo_route,
-    tournament_status_id: tournament.tournament_status.id,
-    online_status: tournament.online_status,
-    winner_team_id: tournament.winner_team?.id,
+    existing_name: tournament?.name || "",
+    name: tournament?.name || "",
+    edition: tournament?.edition || "",
+    tournament_logo_route: tournament?.tournament_logo_route || "",
+    tournament_status_id: tournament?.tournament_status.id || 0,
+    online_status: tournament?.online_status || 0,
+    winner_team_id: tournament?.winner_team?.id || "",
     logo_file: null, 
   });
 
@@ -37,12 +42,11 @@ export function TournamentEditForm({ tournament }) {
     const { name, value, type, checked } = e.target;
     let finalValue;
 
-    // 1. Handle value extraction
     if (type === "checkbox") 
       finalValue = checked;
     else 
-      if (["tournament_status_id", "winner_team_id"].includes(name))
-      finalValue = value === "" ? null : Number(value);
+      if (["tournament_status_id", "winner_team_id", "online_status"].includes(name))
+        finalValue = value === "" ? null : Number(value);
       else 
         finalValue = value;
 
@@ -59,7 +63,10 @@ export function TournamentEditForm({ tournament }) {
         updates.name = finalValue;
       }
 
-      return { ...prev, ...updates };
+      return { 
+        ...prev, 
+        ...updates 
+      };
     });
   }
 
@@ -76,17 +83,22 @@ export function TournamentEditForm({ tournament }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const nameToSubmit = formData.new_name || tournament_names[formData.existing_name]?.name || tournament.name;
-    
+    const nameToSubmit = formData.new_name || tournament_names[formData.existing_name]?.name || tournament?.name;
+
     const submissionData = {
       ...formData,
       name: nameToSubmit
     };
-    
-    updateTournamentMutation.mutate({
-      id: tournament.id,
-      data: submissionData,
-    });
+
+    if (tournament)
+      mutation.mutate({
+        id: tournament.id,
+        data: submissionData,
+      });
+    else
+      mutation.mutate({
+        data: submissionData,
+      });
   }
 
   if (tournament_logos_Loading || tournament_names_Loading || tournament_statuses_Loading || teams_Loading) return <p className="2xl:min-h-150">Loading...</p>;
@@ -95,13 +107,13 @@ export function TournamentEditForm({ tournament }) {
   return (
     <div className='w-full rounded text-white p-5 2xl:p-8 2xl:min-h-150'>
       <form className="flex flex-col w-full space-y-4" onSubmit={handleSubmit} encType="multipart/form-data" >
-        <h2>Actualizar torneo</h2>
+        <h2>{isEdit ? "Actualizar torneo" : "Registrar nuevo torneo"}</h2>
 
         <div className="mb-2">
           <h2>Nombre</h2>
           <div className="grid grid-cols-2 items-center gap-3">
             <label htmlFor="existing_name">Existente</label>
-            <DropdownSelect options={tournament_names} name="existing_name" value={formData.existing_name} onChange={handleChange} required={false} />
+            <DropdownSelect options={tournament_names} name="existing_name" value={formData.existing_name || ""} onChange={handleChange} required={false} />
 
             <label htmlFor="new_name">Nuevo</label>
             <InputText name="new_name" value={formData.new_name} onChange={handleChange} />
@@ -131,7 +143,7 @@ export function TournamentEditForm({ tournament }) {
 
         <div className="grid grid-cols-2 items-center gap-3">
           <label htmlFor="winner_team_id">Ganador</label>
-          <DropdownSelect options={teams} name="winner_team_id" value={formData.winner_team_id} onChange={handleChange} required={false} />
+          <DropdownSelect options={teams} name="winner_team_id" value={formData.winner_team_id} onChange={handleChange} required={false} sideID="id" />
         </div> 
 
         <div className="grid grid-cols-2 items-center gap-3">
@@ -139,14 +151,10 @@ export function TournamentEditForm({ tournament }) {
           <InputCheckbox name="online_status" checked={formData.online_status} onChange={handleChange} />
         </div> 
 
-        <div className="flex justify-between">
-          <div className="flex w-1/2 justify-center">
-            {/* -- MESSAGES -- */}
-            <MutationMessage mutation={updateTournamentMutation} />
-          </div>
-          <div className="flex w-1/2 justify-end">
+        <div className="flex flex-col justify-between">
             <DefaultButton type="submit" value="Guardar" />
-          </div>
+            {/* -- MESSAGES -- */}
+            <MutationMessage mutation={mutation} />
         </div>
       </form>
     </div>
