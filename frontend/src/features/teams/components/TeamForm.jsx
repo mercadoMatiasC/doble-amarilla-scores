@@ -10,6 +10,7 @@ import { ImageDropdown } from "../../../components/forms/ImageDropdown";
 import { useUpdateTeam } from "../hooks/useUpdateTeam";
 import { useStoreTeam } from "../hooks/useStoreTeam";
 import { LoadingScreen } from "../../../components/LoadingScreen";
+import { ErrorScreen } from "../../../components/ErrorScreen";
 
 export function TeamForm({ team = null }) {
   const { data: provinces, isLoading: provinces_Loading, error: provincesError } = useProvinces();
@@ -80,7 +81,7 @@ export function TeamForm({ team = null }) {
   }, [team]);
 
   if (provinces_Loading || team_logos_Loading) return <LoadingScreen wide={true} withBG={false} />;
-  if (provincesError || team_logos_Error) return <p className='text-white'>Error cargando información.</p>;
+  if (provincesError    || team_logos_Error)   return <ErrorScreen wide={true} />;
 
   return (
     <div className='w-full rounded text-white p-5 2xl:p-8 2xl:min-h-150'>

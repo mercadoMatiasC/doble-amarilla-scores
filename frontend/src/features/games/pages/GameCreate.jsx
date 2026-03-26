@@ -1,3 +1,4 @@
+import { ErrorScreen } from "../../../components/ErrorScreen";
 import { LoadingScreen } from "../../../components/LoadingScreen";
 import { PageAnimWrapper } from "../../../components/PageAnimWrapper";
 import { GameForm } from "../components/GameForm";
@@ -11,7 +12,7 @@ export function GameCreate() {
   const { data: rounds, isLoading: rLoading, isError: rError } = useGameRoundStages();
 
   if (fLoading || fLoading || sLoading || rLoading) return <LoadingScreen />;
-  if (fError || sError || rError) return <p>{(fError || sError || rError)?.message}</p>;
+  if (fError || sError || rError) return <ErrorScreen />;
 
   const lookupData = {
     teams: filters.teams,

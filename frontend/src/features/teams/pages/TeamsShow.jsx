@@ -11,6 +11,7 @@ import { DefaultButton } from "../../../components/forms/DefaultButton";
 import { LoadingScreen } from "../../../components/LoadingScreen";
 import { PageAnimWrapper } from "../../../components/PageAnimWrapper";
 import { TeamForm } from "../components/TeamForm";
+import { ErrorScreen } from "../../../components/ErrorScreen";
 
 export function TeamsShow() {
   const { id } = useParams();
@@ -20,7 +21,7 @@ export function TeamsShow() {
   const { mergedGames: upcoming_games } = useLiveSync(team_data?.upcoming_games, 'team_data');
 
   if (isLoading || team_data_loading) return <LoadingScreen wide={true} />;
-  if (error || team_data_error) return <p>{error?.message || team_data_error?.message}</p>;
+  if (error || team_data_error) return <ErrorScreen wide={true} />;
   
   return (
     <div className='w-[90%] rounded flex flex-col text-white bg-black/50 p-5 space-y-3 sm:w-[80%] 2xl:p-8 2xl:justify-between 2xl:flex-row 2xl:space-y-0 2xl:min-h-170'>

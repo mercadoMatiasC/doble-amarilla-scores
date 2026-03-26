@@ -7,3 +7,5 @@ Construido en React.JS, provee una aplicación web para interactuar con la API p
 ![Index Screenshot](public/production/index.png)
 
 ![Show Screenshot](public/production/show.png)
+
+![Edit Screenshot](public/production/edit.png)

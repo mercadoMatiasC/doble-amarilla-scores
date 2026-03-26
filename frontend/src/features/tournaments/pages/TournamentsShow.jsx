@@ -10,6 +10,7 @@ import { useState } from "react";
 import { TournamentShowDisplay } from "../components/TournamentShowDisplay";
 import { TournamentForm } from "../components/TournamentForm";
 import { useLiveSync } from "../../games/hooks/useLiveSync";
+import { ErrorScreen } from "../../../components/ErrorScreen";
 
 export function TournamentsShow() {
   const { id } = useParams(); //TO ACCESS PASSED PARAMETERS
@@ -34,7 +35,7 @@ export function TournamentsShow() {
   
   //MANAGE STATES
   if (isLoading || gamesLoading) return <LoadingScreen wide={true} />;
-  if (error     || gamesError)   return <p>{error.message}</p>;
+  if (error     || gamesError)   return <ErrorScreen wide={true} />;
 
   return (
       <>

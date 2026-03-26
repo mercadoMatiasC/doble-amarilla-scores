@@ -16,7 +16,7 @@ class GameService {
         //GAME VALIDATION
         $game_query = $tournament->games()->where('match_day', $data['match_day'])->where(function ($query) use ($data) {
             $query->whereIn  ('home_team_id', [$data['home_team_id'], $data['away_team_id']]) 
-                    ->orWhereIn('away_team_id', [$data['home_team_id'], $data['away_team_id']]); 
+                  ->orWhereIn('away_team_id', [$data['home_team_id'], $data['away_team_id']]); 
         }); 
 
         //IF IT'S AN UPDATE

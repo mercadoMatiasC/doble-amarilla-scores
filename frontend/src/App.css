@@ -8,6 +8,11 @@ body{
     background-image: url('/brand/background.jpg');
 }
 
+html {
+  background-color: #000000 !important;
+  overscroll-behavior: none; 
+}
+
 h2{
     font-size: large;
 }

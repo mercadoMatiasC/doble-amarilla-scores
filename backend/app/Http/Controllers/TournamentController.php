@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class TournamentController extends Controller{
     public function index() {
-        $tournaments = Tournament::orderBy('name')->orderBy('edition', 'asc')->paginate(8);
+        $tournaments = Tournament::orderBy('edition', 'desc')->orderBy('name')->paginate(8);
         return (TournamentIndexResource::collection($tournaments));
     }
 

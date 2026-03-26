@@ -8,7 +8,7 @@ export function GameIndexRow({ game }) {
     const tournament = game.tournament;
     const limit = 10;
     const isLive = [1, 2, 6].includes(game.match_status.id);
-    const grid_classes = "px-2 rounded-xl grid justify-between gap-4 items-center grid-cols-[20%_10%_50%] sm:grid-cols-[30%_25%_40%] md:grid-cols-[22%_18%_1px_45%] lg:grid-cols-[16%_13%_1px_60%] xl:grid-cols-[16%_15%_1%_50%] 2xl:grid-cols-[18%_15%_1px_60%]";
+    const grid_classes = "rounded-xl grid justify-between gap-4 items-center grid-cols-[25%_10%_50%] sm:px-2 sm:grid-cols-[30%_25%_40%] md:grid-cols-[22%_18%_1px_45%] lg:grid-cols-[16%_13%_1px_60%] xl:grid-cols-[16%_15%_1%_50%] 2xl:grid-cols-[18%_15%_1px_60%]";
 
     //DATE FORMATTING
     const [year, month, day] = game.match_day.split('-');

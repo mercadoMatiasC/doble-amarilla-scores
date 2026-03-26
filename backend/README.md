@@ -13,6 +13,8 @@ Construido en Laravel, provee una API REST para administrar:
 Equipos:  
 GET   /api/equipos  
 POST  /api/equipos  
+GET   /api/equipos/escudos  
+GET   /api/equipos/provincias  
 GET   /api/equipos/{id}  
 PATCH /api/equipos/{id}  
 GET   /api/equipos/{id}/informacion  
@@ -20,15 +22,21 @@ GET   /api/equipos/{id}/informacion
 Torneos:  
 GET   /api/torneos  
 POST  /api/torneos  
+GET   /api/torneos/logos  
+GET   /api/torneos/nombres  
+GET   /api/torneos/estados  
 GET   /api/torneos/{id}  
 PATCH /api/torneos/{id}  
 
 Partidos:  
 GET   /api/partidos  
 POST  /api/partidos  
-GET   /api/partidos/{id}   
-PATCH /api/partidos/{id}  
+GET   /api/partidos/vivo  
 GET   /api/partidos/filtros  
+GET   /api/partidos/estados  
+GET   /api/partidos/fases  
+GET   /api/partidos/{id}  
+PATCH /api/partidos/{id}  
 
 ## Filtros de partidos
 

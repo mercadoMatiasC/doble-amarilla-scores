@@ -15,6 +15,7 @@ import { useTournamentStatuses } from "../hooks/useTournamentStatuses";
 import { useStoreTournament } from "../hooks/useStoreTournament";
 import { useGamesFilters } from "../../games/hooks/useGamesFilters";
 import { LoadingScreen } from "../../../components/LoadingScreen";
+import { ErrorScreen } from "../../../components/ErrorScreen";
 
 export function TournamentForm({ tournament }) {
   const { data: tournament_names, isLoading: tournament_names_Loading, error: tournament_names_Error } = useTournamentNames();
@@ -34,19 +35,21 @@ export function TournamentForm({ tournament }) {
     edition: tournament?.edition || "",
     tournament_logo_route: tournament?.tournament_logo_route || "",
     tournament_status_id: tournament?.tournament_status.id || 0,
-    online_status: tournament?.online_status || 0,
+    online_status: tournament?.online_status || true,
     winner_team_id: tournament?.winner_team?.id || "",
     logo_file: null, 
   });
 
   function handleChange(e) {
-    const { name, value, type, checked } = e.target;
+    const { name, value, checked } = e.target;
     let finalValue;
 
-    if (type === "checkbox") 
+    
+    if (name == "online_status") {
       finalValue = checked;
-    else 
-      if (["tournament_status_id", "winner_team_id", "online_status"].includes(name))
+      console.log(checked)
+    }else 
+      if (["tournament_status_id", "winner_team_id"].includes(name))
         finalValue = value === "" ? null : Number(value);
       else 
         finalValue = value;
@@ -103,7 +106,7 @@ export function TournamentForm({ tournament }) {
   }
 
   if (tournament_logos_Loading || tournament_names_Loading || tournament_statuses_Loading || filters_Loading) return <LoadingScreen wide={true} withBG={false} />;
-  if (tournament_logos_Error || tournament_names_Error || tournament_statuses_Error || filters_Error) return <p className='text-white'>Error cargando información.</p>;
+  if (tournament_logos_Error || tournament_names_Error || tournament_statuses_Error || filters_Error) return <ErrorScreen />;
 
   const teams = filters.teams;
 

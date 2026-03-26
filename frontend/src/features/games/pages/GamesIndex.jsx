@@ -6,6 +6,7 @@ import { PageAnimWrapper } from '../../../components/PageAnimWrapper';
 import { LoadingScreen } from '../../../components/LoadingScreen';
 import { useLiveSync } from '../hooks/useLiveSync';
 import { GamesFilterSidebar } from '../components/GamesFilterSidebar';
+import { ErrorScreen } from '../../../components/ErrorScreen';
 
 export function GamesIndex() {
   const { data, isLoading: gamesLoading, error: gamesError } = useGames();
@@ -36,7 +37,7 @@ export function GamesIndex() {
   };
 
   if (gamesLoading || filtersLoading) return <LoadingScreen wide={true} />;
-  if (gamesError   || filtersError) return <p className='text-white'>Error cargando partidos</p>;
+  if (gamesError   || filtersError) return <ErrorScreen wide={true} error="Error cargando partidos." />;
 
   return (
     <>

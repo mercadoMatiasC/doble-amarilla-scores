@@ -7,16 +7,17 @@ import { useGameStatuses } from "../hooks/useGameStatuses";
 import { useGameRoundStages } from "../hooks/useGameRoundStages";
 import { useGamesFilters } from "../../games/hooks/useGamesFilters"
 import { GameForm } from "../components/GameForm";
+import { ErrorScreen } from "../../../components/ErrorScreen"
 
 export function GameEdit() {
   const { id } = useParams();
   const { data: game, isLoading, error } = useGame(id);
-  const { data: filters, isLoading: fLoading } = useGamesFilters();
-  const { data: statuses, isLoading: sLoading } = useGameStatuses();
-  const { data: rounds, isLoading: rLoading } = useGameRoundStages();
+  const { data: filters, isLoading: fLoading, isError: fError} = useGamesFilters();
+  const { data: statuses, isLoading: sLoading, isError: sError } = useGameStatuses();
+  const { data: rounds, isLoading: rLoading, isError: rError } = useGameRoundStages();
 
   if (isLoading || fLoading || sLoading || rLoading) return <LoadingScreen />;
-  if (error) return <p>{error?.message}</p>;
+  if (error || fError || sError || rError) return <ErrorScreen />;
 
   const lookupData = {
     teams: filters.teams,
