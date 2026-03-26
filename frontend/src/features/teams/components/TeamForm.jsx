@@ -35,32 +35,52 @@ export function TeamForm({ team = null }) {
     const { name, value } = e.target;
     const isNumeric = name === "province_id";
 
-    setFormData(prev => ({
-      ...prev,
-      [name]: isNumeric ? Number(value) : value,
-    }));
+    setFormData(prev => {
+      const newState = {
+        ...prev,
+        [name]: isNumeric ? Number(value) : value,
+      };
+
+      if (name == "team_logo_route")
+        newState.logo_file = null;
+
+      return newState;
+    });
   }
 
   function handleFileChange(e) {
     const file = e.target.files[0];
-    if (file) {
+    if (file) 
       setFormData(prev => ({
         ...prev,
         logo_file: file,
         team_logo_route: URL.createObjectURL(file) 
       }));
-    }
+
   }
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (team)
+    if (team){
+      const payload = new FormData();
+      payload.append("name", formData.name);
+      payload.append("nickname", formData.nickname);
+      payload.append("province_id", formData.province_id);
+      payload.append("founded_date", formData.founded_date);
+      payload.append("stadium", formData.stadium);
+      payload.append("_method", "PATCH");
+
+      if (formData.logo_file instanceof File) 
+        payload.append("logo_file", formData.logo_file);
+      else
+        payload.append("team_logo_route", formData.team_logo_route);
+
       mutation.mutate({
         id: team.id,
-        data: formData,
+        data: payload,
       });
-    else
+    }else
       mutation.mutate({
         data: formData,
       });

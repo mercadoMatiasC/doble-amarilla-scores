@@ -6,9 +6,7 @@ export function useTeams() {
   const [searchParams] = useSearchParams();
 
   const filters = {
-    team_id: searchParams.get("team_id") || "",
-    tournament_id: searchParams.get("tournament_id") || "",
-    sort: searchParams.get("sort") || "-match_day",
+    search: searchParams.get("search") || "",
     page: searchParams.get("page") || 1
   };
 

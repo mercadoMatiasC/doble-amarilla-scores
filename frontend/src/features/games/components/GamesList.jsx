@@ -14,8 +14,6 @@ export function GamesList({ games }){
                     <GameIndexRow key={game.id} game={game} />
                 ))}
             </div>
-        ) : (
-            <p>Ningún partido coincide con el criterio de busqueda.</p>
-        )
+        ) : (<p>Ningún partido coincide con el criterio de busqueda.</p>)
     );
 }

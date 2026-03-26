@@ -5,7 +5,7 @@ Este proyecto esta estructurado como un monorepo que contiene su API backend y s
 
 Objetivo: Afianzar conocimientos de desarrollo web aplicando arquitectura limpia y desacoplada.  
 
-Estado: Alpha (en desarrollo activo).  
+Estado: Beta (en desarrollo activo).  
 Stack principal: Laravel (Backend API) | React.JS (Frontend SPA).  
 
 ## Estructura

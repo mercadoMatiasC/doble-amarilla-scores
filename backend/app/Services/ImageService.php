@@ -6,31 +6,21 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Encoders\PngEncoder;
 
-class ImageService
-{
-    public static function squareAndResize(UploadedFile $file, string $directory, string $filename = 'image.webp', int $size = 136, ?string $deletePath = null): string {
-        //DELETE PREVIOUS IMAGE
-        if ($deletePath && Storage::disk('public')->exists($deletePath))
+class ImageService {
+    public static function squareAndResize(UploadedFile $file, string $directory, string $filename = 'image.png', int $size = 136, ?string $deletePath = null, bool $toDelete = false): string {
+        if ($toDelete && $deletePath && Storage::disk('public')->exists($deletePath))
             Storage::disk('public')->delete($deletePath);
 
         $manager = new ImageManager(new Driver());
         $image = $manager->read($file);
-
-        $width  = $image->width();
-        $height = $image->height();
-        $cropSize = min($width, $height);
-
-        //CENTERED SQUARE CROP
-        $image->crop($cropSize, $cropSize, intval(($width-$cropSize) / 2), intval(($height-$cropSize)/2));
-
-        //RESIZE
-        $image->resize($size, $size);
+        $image->cover($size, $size);
+        
+        $encoded = $image->encode(new PngEncoder());
 
         $path = "{$directory}/{$filename}";
-
-        //OPTIMIZE AND SAVE
-        Storage::disk('public')->put($path, (string) $image->toWebp(85));
+        Storage::disk('public')->put($path, (string) $encoded);
 
         return $path;
     }

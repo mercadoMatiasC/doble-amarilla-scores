@@ -6,12 +6,22 @@ use App\Http\Requests\TournamentRequest;
 use App\Http\Resources\TournamentIndexResource;
 use App\Http\Resources\TournamentShowResource;
 use App\Models\Tournament;
+use App\Services\ImageService;
 use App\Services\TournamentService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 class TournamentController extends Controller{
-    public function index() {
-        $tournaments = Tournament::orderBy('edition', 'desc')->orderBy('name')->paginate(8);
+
+    public function index(Request $request) {
+        $query = Tournament::query();
+
+        if ($request->filled('search'))
+            $query->where('name', 'LIKE', '%'.$request->search.'%');
+
+        $tournaments = $query->orderBy('edition', 'desc')->orderBy('name')->paginate(8)->withQueryString();
+
         return (TournamentIndexResource::collection($tournaments));
     }
 
@@ -62,9 +72,21 @@ class TournamentController extends Controller{
     }
 
     public function store(TournamentRequest $request, TournamentService $tournament_service) {
-        $tournament = $tournament_service->storeTournament($request->validated());
+        $tournament = $tournament_service->storeTournament(Arr::except($request->validated(), ['logo_file']));
         $tournament->load(['winnerTeam']);
-        
+
+        if ($request->hasFile('logo_file')) {
+            $newFilename = "{$tournament->id}.png";
+
+            $path = ImageService::squareAndResize(
+                file: $request->file('logo_file'),
+                directory: 'tournament_logos',
+                filename: $newFilename,
+            );
+
+            $tournament->update(['tournament_logo_route' => $path]);
+        }
+         
         return (new TournamentIndexResource($tournament))->response()->setStatusCode(201);
     }
 
@@ -74,7 +96,23 @@ class TournamentController extends Controller{
     }
 
     public function update(TournamentRequest $request, Tournament $tournament, TournamentService $tournament_service) {
-        $tournament = $tournament_service->updateTournament($request->validated(), $tournament);
+        if ($request->hasFile('logo_file')) {
+            $newFilename = "{$tournament->id}.png";
+            
+            $isOwnedImage = basename($tournament->team_logo_route) === $newFilename;
+
+            $path = ImageService::squareAndResize(
+                file: $request->file('logo_file'),
+                directory: 'tournament_logos',
+                filename: $newFilename,
+                deletePath: $tournament->team_logo_route,
+                toDelete: $isOwnedImage 
+            );
+
+            $tournament->update(['tournament_logo_route' => $path]);
+        }    
+    
+        $tournament = $tournament_service->updateTournament(Arr::except($request->validated(), ['logo_file']), $tournament);
         $tournament->load(['winnerTeam']);
         
         return (new TournamentShowResource($tournament))->response()->setStatusCode(200);

@@ -6,11 +6,19 @@ export async function storeTournament(data) {
   Object.keys(data).forEach(key => {
     let value = data[key];
 
-    if (key === "online_status") 
+    if (key === "logo_file"){
+      if (value instanceof File) 
+        formData.append("logo_file", value);
+      return;
+    }
+
+    if (key === "online_status")
       value = value ? "1" : "0";
 
-    if (value !== null && value !== undefined)
-      formData.append(key, value);
+    if (value === "" || value === null || value === undefined)
+      return;
+
+    formData.append(key, value);
   });
 
   const res = await fetch(`${API_URL}/torneos`, {

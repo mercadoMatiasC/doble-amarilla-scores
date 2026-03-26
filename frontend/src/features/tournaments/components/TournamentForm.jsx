@@ -41,14 +41,13 @@ export function TournamentForm({ tournament }) {
   });
 
   function handleChange(e) {
+    console.log(formData.existing_name);
     const { name, value, checked } = e.target;
     let finalValue;
 
-    
-    if (name == "online_status") {
+    if (name == "online_status") 
       finalValue = checked;
-      console.log(checked)
-    }else 
+    else 
       if (["tournament_status_id", "winner_team_id"].includes(name))
         finalValue = value === "" ? null : Number(value);
       else 
@@ -66,6 +65,9 @@ export function TournamentForm({ tournament }) {
         updates.existing_name = "";
         updates.name = finalValue;
       }
+
+      if (name == "tournament_logo_route")
+        updates.logo_file = null;
 
       return { 
         ...prev, 
@@ -89,20 +91,39 @@ export function TournamentForm({ tournament }) {
     e.preventDefault();
     const nameToSubmit = formData.new_name || tournament_names[formData.existing_name]?.name || tournament?.name;
 
-    const submissionData = {
-      ...formData,
-      name: nameToSubmit
-    };
+    if (tournament) {
+      const payload = new FormData();
 
-    if (tournament)
+      payload.append("name", nameToSubmit); 
+      payload.append("edition", formData.edition);
+      payload.append("tournament_status_id", formData.tournament_status_id);
+      payload.append("online_status", formData.online_status ? 1 : 0);
+
+      if (formData.winner_team_id) 
+        payload.append("winner_team_id", formData.winner_team_id);
+
+      payload.append("_method", "PATCH");
+
+      if (formData.logo_file instanceof File)
+        payload.append("logo_file", formData.logo_file);
+      else
+        payload.append("tournament_logo_route", formData.tournament_logo_route);
+
       mutation.mutate({
         id: tournament.id,
-        data: submissionData,
+        data: payload,
       });
-    else
+    }else{
+      const submissionData = {
+        ...formData,
+        name: nameToSubmit,
+        online_status: formData.online_status ? 1 : 0 
+      };
+
       mutation.mutate({
         data: submissionData,
       });
+    }
   }
 
   if (tournament_logos_Loading || tournament_names_Loading || tournament_statuses_Loading || filters_Loading) return <LoadingScreen wide={true} withBG={false} />;

@@ -34,7 +34,7 @@ class TournamentRequest extends FormRequest{
         return [
             'name'    => ['required', 'string'],
             'tournament_logo_route' => ['string'],
-            'tournament_logo' => ['nullable', 'image', 'max:1024'],
+            'logo_file'    => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:2048'],
             'edition' => ['required', 'string'],
             'tournament_status_id' => ['required', 'numeric', 'integer'],
             'online_status' => ['required', 'boolean'],

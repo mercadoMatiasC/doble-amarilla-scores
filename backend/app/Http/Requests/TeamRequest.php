@@ -38,7 +38,7 @@ class TeamRequest extends FormRequest{
             'founded_date' => ['required', 'date'],
             'stadium'      => ['nullable', 'string'],
             'team_logo_route' => ['nullable', 'string'],
-            'team_logo'    => ['nullable', 'image', 'max:1024'],
+            'logo_file'    => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:2048'],
         ];
     }
 }

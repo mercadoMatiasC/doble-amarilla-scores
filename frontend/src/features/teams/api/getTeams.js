@@ -1,9 +1,12 @@
 import { API_URL } from "../../../constants/api";
 
 export async function fetchTeams(filters) {
-  const params = new URLSearchParams(filters);
-  const res = await fetch(`${API_URL}/equipos?${params.toString()}`);
-  const data = await res.json();
+  const queryParams = new URLSearchParams(filters).toString();
+  const res = await fetch(`${API_URL}/equipos?${queryParams}`);
+  const json = await res.json();
 
-  return data;
+  if (!res.ok) 
+    throw json;
+
+  return json;
 }
