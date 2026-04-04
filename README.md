@@ -12,3 +12,9 @@ Stack principal: Laravel (Backend API) | React.JS (Frontend SPA).
 
 /backend   -> Laravel REST API  
 /frontend  -> React.JS Application  
+
+![Index Screenshot](frontend/public/production/index.png)
+
+![Show Screenshot](frontend/public/production/show.png)
+
+![Edit Screenshot](frontend/public/production/edit.png)
